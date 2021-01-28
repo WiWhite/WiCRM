@@ -27,7 +27,7 @@ class Customers(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=11, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.SmallIntegerField(choices=STATUS_CHOICES)
@@ -38,7 +38,7 @@ class Customers(models.Model):
 
 
 class Services(models.Model):
-    service_name = models.CharField(max_length=20)
+    service_name = models.CharField(max_length=50)
 
     def __str__(self):
         return f'{self.service_name}'
@@ -60,7 +60,7 @@ class Staff(models.Model):
     )
     sex = models.SmallIntegerField(choices=SEX_CHOICES)
     hiring_date = models.DateTimeField(auto_now_add=True)
-    dismissal = models.DateField()
+    dismissal = models.DateField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -69,4 +69,7 @@ class Staff(models.Model):
 
 class Positions(models.Model):
     position_name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f'{self.position_name}'
 
