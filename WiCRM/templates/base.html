@@ -22,6 +22,49 @@
     {% block content %}
     {% endblock %}
 </div>
+{% if paginator %}
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-3">
+
+        {% if not page_obj.has_previous %}
+        <li class="page-item disabled">
+            <a class="page-link " href="#" tabindex="-1">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link"
+               href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        {% endif %}
+
+        {% for n in paginator.page_range %}
+        {% if n == page_obj.number %}
+        <li class="page-item active">
+      <span class="page-link">
+        {{n}}
+        <span class="sr-only"></span>
+      </span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{n}}">{{n}}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if not page_obj.has_next %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endif %}
 
 
 </body>

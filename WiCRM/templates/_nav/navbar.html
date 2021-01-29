@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">WiCRM</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false"
@@ -18,9 +18,9 @@
             </div>
 
         </div>
-        <form class="d-flex">
+        <form class="d-flex" action="{% url 'customers_list' %}">
             <input class="form-control me-2" type="search" placeholder="Search"
-                   aria-label="Search">
+                   aria-label="Search" name="search">
             <button class="btn btn-outline-success" type="submit">Search
             </button>
         </form>
