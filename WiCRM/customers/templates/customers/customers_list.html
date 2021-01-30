@@ -5,10 +5,12 @@ Customers
 {% endblock %}
 
 {% block content %}
+
 <div class="row">
     {% for customer in page_obj %}
-    <div class="col-lg-3 col-md-4 col-6">
-        <div class="card-header border border-dark">
+
+    <div class="col-sm-3">
+        <div class="card-header bg-dark text-white">
             {{ customer }}
             {% if customer.status == 0 %}
             <span class="badge bg-info text-dark">Conversation</span>
@@ -25,11 +27,15 @@ Customers
             <h6 class="card-title">Phone number: {{ customer.phone_number }}</h6>
             <h6 class="card-title">E-mail: {{ customer.email }}</h6>
             <h6 class="card-title">Service: {{ customer.service }}</h6>
-            <a href="#" class="btn btn-outline-success pl-5">Details</a>
-            <a href="#" class="btn btn-outline-primary pl-5">History</a>
-            <a href="{{ customer.instagram }}" class="btn btn-outline-dark pl-5">Instagram</a>
+            <a href="#"
+               class="btn btn-outline-success pl-5">Details</a>
+            <a href="#"
+               class="btn btn-outline-primary pl-5">History</a>
+            <a href="{{ customer.instagram }}"
+               class="btn btn-outline-dark pl-5">Instagram</a>
         </div>
     </div>
+
     {% endfor %}
 </div>
 {% endblock %}

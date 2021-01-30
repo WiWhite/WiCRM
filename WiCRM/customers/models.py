@@ -9,13 +9,7 @@ class Customers(models.Model):
         (2, 'Pending'),
         (3, 'Done'),
     )
-    # SERVICE_CHOICES = (
-    #     (0, 'Logo'),
-    #     (1, 'Form style'),
-    #     (2, 'Corporate identity + media'),
-    #     (3, 'Visual'),
-    #     (4, 'Preset'),
-    # )
+
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=30)
     company = models.CharField(max_length=50)
@@ -35,6 +29,9 @@ class Customers(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+    class Meta:
+        ordering = ['-created_at']
 
 
 class Services(models.Model):
