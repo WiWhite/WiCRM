@@ -21,6 +21,8 @@ class Customers(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name_plural = 'Customers'
+        verbose_name = 'Customer'
 
 
 class Services(models.Model):
@@ -29,6 +31,10 @@ class Services(models.Model):
 
     def __str__(self):
         return f'{self.service_name}'
+
+    class Meta:
+        verbose_name_plural = 'Services'
+        verbose_name = 'Service'
 
 
 class Staff(models.Model):
@@ -54,6 +60,10 @@ class Staff(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+    class Meta:
+        verbose_name_plural = 'Staff'
+        verbose_name = 'Staff'
+
 
 class Positions(models.Model):
 
@@ -61,6 +71,10 @@ class Positions(models.Model):
 
     def __str__(self):
         return f'{self.position_name}'
+
+    class Meta:
+        verbose_name_plural = 'Positions'
+        verbose_name = 'Position'
 
 
 class Orders(models.Model):
@@ -71,14 +85,31 @@ class Orders(models.Model):
         (2, 'Pending'),
         (3, 'Done'),
     )
-    customer = models.ForeignKey(Customers, on_delete=models.CASCADE)
+    customer = models.ForeignKey(
+        Customers,
+        on_delete=models.CASCADE,
+        verbose_name='Customer'
+    )
     service = models.ForeignKey(
         Services,
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        verbose_name='Service'
     )
-    price = models.DecimalField(max_digits=11, decimal_places=2)
-    status = models.SmallIntegerField(choices=STATUS_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    price = models.DecimalField(
+        max_digits=11,
+        decimal_places=2,
+        verbose_name='Price'
+    )
+    status = models.SmallIntegerField(
+        choices=STATUS_CHOICES,
+        verbose_name='Status'
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Cr')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Up')
+
+    class Meta:
+        verbose_name_plural = 'Orders'
+        verbose_name = 'Order'
+        ordering = ('-created_at',)
 

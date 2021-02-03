@@ -12,7 +12,7 @@ Create customer
     <form action="{% url 'create_customer' %}" method="post" class="form-control">
         {% csrf_token %}
         {% for field in form %}
-            <div class="form-group">
+            <div class="form-group mt-2">
                 {% if field.label != 'Owner' %}
                     {{ field.label }}
                     {{ field }}

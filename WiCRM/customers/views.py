@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.models import User
 from .models import *
 from .forms import *
@@ -42,3 +42,14 @@ class CreateCustomer(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class DetailCustomer(DetailView):
+    model = Customers
+    template_name = 'customers/detail_customer.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['orders'] = Orders.objects.filter(customer=self.object.id)
+        context['fields'] = Orders._meta.fields
+        return context

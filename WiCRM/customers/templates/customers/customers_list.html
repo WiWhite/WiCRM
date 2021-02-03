@@ -9,21 +9,23 @@ Customers
 <div class="row">
     {% for customer in page_obj %}
 
-    <div class="col-sm-3 mt-2">
+    <div class="col-4 mt-4">
         <div class="card-header bg-dark text-white">
             {{ customer }}
         </div>
-        <div class="card-body border border-dark">
+        <div class="card-body border border-dark bg-light">
             <h6 class="card-title">Company: {{ customer.company }}</h6>
             <h6 class="card-title">Phone number: {{ customer.phone_number }}</h6>
             <h6 class="card-title">E-mail: {{ customer.email }}</h6>
             <div class="container">
                 <div class="row">
                     <div class="col">
-                        <a href="#"
-                       class="btn btn-outline-success pl-5">Details</a>
+                        <a href="{% url 'detail_customer' customer.id %}"
+                       class="btn btn-outline-success">Details</a>
                         <a href="{{ customer.instagram }}"
-                       class="btn btn-outline-dark pl-5">Instagram</a>
+                       class="btn btn-outline-warning">Update</a>
+                        <a href="{{ customer.instagram }}"
+                       class="btn btn btn-outline-danger">Delete</a>
                     </div>
                 </div>
             </div>
