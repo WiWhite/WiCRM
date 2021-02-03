@@ -12,11 +12,10 @@ class CustomerForm(forms.ModelForm):
             'phone_number',
             'email',
             'instagram',
-            'service',
-            'price',
-            'status',
-            'curator'
+            'curator',
+            'owner'
         )
+
         widgets = {
             'first_name': forms.TextInput(
                 attrs={
@@ -49,16 +48,6 @@ class CustomerForm(forms.ModelForm):
                 }
             ),
             'service': forms.Select(
-                attrs={
-                    'class': 'form-select form-select-sm'
-                }
-            ),
-            'price': forms.NumberInput(
-                attrs={
-                    'class': 'form-control form-control-sm'
-                }
-            ),
-            'status': forms.Select(
                 attrs={
                     'class': 'form-select form-select-sm'
                 }

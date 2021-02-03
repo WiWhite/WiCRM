@@ -13,8 +13,10 @@ Create customer
         {% csrf_token %}
         {% for field in form %}
             <div class="form-group">
-                {{ field.label }}
-                {{ field }}
+                {% if field.label != 'Owner' %}
+                    {{ field.label }}
+                    {{ field }}
+                {% endif %}
             </div>
         {% endfor %}
         <div class="d-grid gap-2 mt-2">
