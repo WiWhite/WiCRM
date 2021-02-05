@@ -43,19 +43,28 @@ class Staff(models.Model):
         (0, 'Male'),
         (1, 'Female'),
     )
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=30)
-    phone_number = PhoneNumberField(null=True)
-    birthdate = models.DateField()
+    first_name = models.CharField(max_length=20, verbose_name='First name')
+    last_name = models.CharField(max_length=30, verbose_name='Last name')
+    phone_number = PhoneNumberField(null=True, verbose_name='Phone number')
+    birthdate = models.DateField(verbose_name='Birthdate')
     position = models.ForeignKey(
         'Positions',
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        verbose_name='Position'
     )
-    sex = models.SmallIntegerField(choices=SEX_CHOICES)
-    hiring_date = models.DateTimeField(auto_now_add=True)
-    dismissal = models.DateField(null=True, blank=True)
+    sex = models.SmallIntegerField(choices=SEX_CHOICES, verbose_name='Sex')
+    hiring_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Hiring date'
+    )
+    dismissal = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='Dismissal'
+    )
     updated_at = models.DateTimeField(auto_now=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

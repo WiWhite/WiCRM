@@ -58,3 +58,56 @@ class CustomerForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = (
+            'first_name',
+            'last_name',
+            'phone_number',
+            'birthdate',
+            'position',
+            'sex',
+            'dismissal',
+            'owner'
+        )
+
+        widgets = {
+            'first_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+            'phone_number': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+            'birthdate': forms.DateInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+            'position': forms.Select(
+                attrs={
+                    'class': 'form-select form-select-sm'
+                }
+            ),
+            'sex': forms.Select(
+                attrs={
+                    'class': 'form-select form-select-sm'
+                }
+            ),
+            'dismissal': forms.DateInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            )
+        }

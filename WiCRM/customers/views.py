@@ -53,3 +53,16 @@ class DetailCustomer(DetailView):
         context['orders'] = Orders.objects.filter(customer=self.object.id)
         context['fields'] = Orders._meta.fields
         return context
+
+
+class SettingsStaff(CreateView):
+    model = Staff
+    form_class = StaffForm
+    template_name = 'customers/settings.html'
+    success_url = reverse_lazy('')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['staff'] = Staff.objects.filter(owner=self.request.user)
+        context['fields'] = Staff._meta.fields
+        return context

@@ -6,4 +6,5 @@ urlpatterns = [
     path('create-customer/', CreateCustomer.as_view(), name='create_customer'),
     path('detail-customer/<int:pk>', DetailCustomer.as_view(),
          name='detail_customer'),
+    path('settings-staff/', SettingsStaff.as_view(), name='settings_staff'),
 ]
