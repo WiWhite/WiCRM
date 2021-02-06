@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create order
+{% endblock %}
+
+{% block content %}
+<h3 class="text-center">
+    Create new order:
+</h3>
+<div class="w-50 p-3 mt-3">
+    <form action="{% url 'create_order' %}" method="post" class="form-control">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group mt-2">
+                    {{ field.label }}
+                    {{ field }}
+            </div>
+        {% endfor %}
+        <div class="d-grid gap-2 mt-2">
+            <button class="btn btn-outline-success" type="submit">Create</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

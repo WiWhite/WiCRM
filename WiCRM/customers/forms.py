@@ -128,3 +128,47 @@ class PositionsForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Orders
+        fields = (
+            'service',
+            'price',
+            'status',
+        )
+
+        widgets = {
+            'service': forms.Select(
+                attrs={
+                    'class': 'form-select form-select-sm'
+                }
+            ),
+            'price': forms.NumberInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+            'status': forms.Select(
+                attrs={
+                    'class': 'form-select form-select-sm'
+                }
+            ),
+        }
+
+
+class ServicesForm(forms.ModelForm):
+    class Meta:
+        model = Services
+        fields = (
+            'service_name',
+        )
+
+        widgets = {
+            'service_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
+        }

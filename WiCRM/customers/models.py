@@ -27,7 +27,7 @@ class Customers(models.Model):
 
 class Services(models.Model):
 
-    service_name = models.CharField(max_length=50)
+    service_name = models.CharField(max_length=50, verbose_name='Service name')
 
     def __str__(self):
         return f'{self.service_name}'

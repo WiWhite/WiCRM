@@ -13,11 +13,11 @@ Settings
                    href="{% url 'settings_staff' %}">Staff</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true"
+                <a class="nav-link text-secondary" aria-current="true"
                    href="{% url 'settings_positions' %}">Position</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-secondary" aria-current="true"
+                <a class="nav-link active" aria-current="true"
                    href="{% url 'settings_services' %}">Service</a>
             </li>
         </ul>
@@ -27,9 +27,9 @@ Settings
             <div class="row">
                 <div class="col-md-3 col-sm-5 mt-3">
                     <h3>
-                        Create position:
+                        Create service:
                     </h3>
-                    <form action="{% url 'settings_positions' %}" method="post"
+                    <form action="{% url 'settings_services' %}" method="post"
                           class="form-control">
                         {% csrf_token %}
                         {% for field in form %}
@@ -48,13 +48,13 @@ Settings
                 </div>
                 <div class="col-md-5 col-sm-5 mt-3">
                     <h3>
-                        Positions:
+                        Services:
                     </h3>
                     <table class="table table-bordered border-dark table-success table-striped table-sm">
                         <thead>
                         <tr>
                             {% for field in fields %}
-                                {% if field.verbose_name == 'Position name' %}
+                                {% if field.verbose_name != 'ID' %}
                                     <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}
@@ -62,16 +62,14 @@ Settings
                         </tr>
                         </thead>
                         <tbody>
-
-                                {% for position in positions %}
+                                {% for service in services %}
                                 <tr>
-                                    <td>{{ position.position_name }}</td>
+                                    <td>{{ service.service_name }}</td>
                                     <td>
                                         <a class="btn btn-sm btn-danger">Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
-
                         </tbody>
                     </table>
                 </div>

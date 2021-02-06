@@ -44,6 +44,13 @@ class CreateCustomer(CreateView):
             return self.form_invalid(form)
 
 
+class CreateOrder(CreateView):
+    model = Orders
+    form_class = OrderForm
+    template_name = 'customers/create_order.html'
+    success_url = reverse_lazy('detail_customer')
+
+
 class DetailCustomer(DetailView):
     model = Customers
     template_name = 'customers/detail_customer.html'
@@ -52,6 +59,7 @@ class DetailCustomer(DetailView):
         context = super().get_context_data(**kwargs)
         context['orders'] = Orders.objects.filter(customer=self.object.id)
         context['fields'] = Orders._meta.fields
+        context['form'] = OrderForm
         return context
 
 
@@ -88,4 +96,17 @@ class SettingsPositions(CreateView):
         context = super().get_context_data(**kwargs)
         context['positions'] = Positions.objects.all()
         context['fields'] = Positions._meta.fields
+        return context
+
+
+class SettingsService(CreateView):
+    model = Services
+    form_class = ServicesForm
+    template_name = 'customers/settings_services.html'
+    success_url = reverse_lazy('settings_services')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services'] = Services.objects.all()
+        context['fields'] = Services._meta.fields
         return context
