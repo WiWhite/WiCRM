@@ -54,7 +54,7 @@ class Staff(models.Model):
         verbose_name='Position'
     )
     sex = models.SmallIntegerField(choices=SEX_CHOICES, verbose_name='Sex')
-    hiring_date = models.DateTimeField(
+    hiring_date = models.DateField(
         auto_now_add=True,
         verbose_name='Hiring date'
     )
@@ -76,7 +76,10 @@ class Staff(models.Model):
 
 class Positions(models.Model):
 
-    position_name = models.CharField(max_length=20)
+    position_name = models.CharField(
+        max_length=20,
+        verbose_name='Position name'
+    )
 
     def __str__(self):
         return f'{self.position_name}'

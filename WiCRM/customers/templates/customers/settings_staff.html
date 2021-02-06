@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true"
+                   href="{% url 'settings_staff' %}">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" href="{% url 'settings_positions' %}">Position</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-5 mt-3">
+                    <h3>
+                        Create staff:
+                    </h3>
+                    <form action="{% url 'settings_staff' %}" method="post"
+                          class="form-control">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group mt-2">
+                                {% if field.label != 'Owner' %}
+                                    {{ field.label }}
+                                    {{ field }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 mt-2">
+                            <button class="btn btn-outline-success"
+                                    type="submit">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-auto col-sm-5 mt-3">
+                    <h3>
+                        Staff:
+                    </h3>
+                    <table class="table table-bordered border-dark table-success table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Person</th>
+                            {% for field in fields %}
+                                {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' %}
+                                <th scope="col">{{ field.verbose_name }}</th>
+                                {% endif %}
+                            {% endfor %}
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for person in staff %}
+                                <tr>
+                                    <td>{{ person }}</td>
+                                    <td>{{ person.phone_number }}</td>
+                                    <td>{{ person.birthdate }}</td>
+                                    <td>{{ person.position }}</td>
+                                    <td>{{ person.hiring_date }}</td>
+                                    {% if person.dismissal is None %}
+                                        <td>-</td>
+                                    {% else %}
+                                        <td>{{ person.dismissal }}</td>
+                                    {% endif %}
+                                    <td scope="col"><a class="btn btn-sm btn-warning">Update</a>
+                                    </td>
+                                    <td scope="col"><a class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

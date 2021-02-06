@@ -58,11 +58,34 @@ class DetailCustomer(DetailView):
 class SettingsStaff(CreateView):
     model = Staff
     form_class = StaffForm
-    template_name = 'customers/settings.html'
-    success_url = reverse_lazy('')
+    template_name = 'customers/settings_staff.html'
+    success_url = reverse_lazy('settings_staff')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['staff'] = Staff.objects.filter(owner=self.request.user)
         context['fields'] = Staff._meta.fields
+        return context
+
+    def post(self, request, *args, **kwargs):
+        owner = User.objects.get(username=self.request.user)
+        self.request.POST = self.request.POST.copy()
+        self.request.POST['owner'] = f'{owner.pk}'
+        form = self.form_class(self.request.POST)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class SettingsPositions(CreateView):
+    model = Positions
+    form_class = PositionsForm
+    template_name = 'customers/settings_positions.html'
+    success_url = reverse_lazy('settings_positions')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['positions'] = Positions.objects.all()
+        context['fields'] = Positions._meta.fields
         return context

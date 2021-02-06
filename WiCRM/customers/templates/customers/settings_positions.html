@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'settings_staff' %}">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true"
+                   href="{% url 'settings_positions' %}">Position</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-5 mt-3">
+                    <h3>
+                        Create position:
+                    </h3>
+                    <form action="{% url 'settings_positions' %}" method="post"
+                          class="form-control">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group mt-2">
+                            {{ field.label }}
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 mt-2">
+                            <button class="btn btn-outline-success"
+                                    type="submit">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-5 col-sm-5 mt-3">
+                    <h3>
+                        Positions:
+                    </h3>
+                    <table class="table table-bordered border-dark table-success table-striped table-sm">
+                        <thead>
+                        <tr>
+                            {% for field in fields %}
+                                {% if field.verbose_name == 'Position name' %}
+                                    <th scope="col">{{ field.verbose_name }}</th>
+                                {% endif %}
+                            {% endfor %}
+                            <th scope="col">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                                {% for position in positions %}
+                                <tr>
+                                    <td>{{ position.position_name }}</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

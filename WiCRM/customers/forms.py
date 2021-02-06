@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django import forms
 from .models import *
 
@@ -90,10 +92,9 @@ class StaffForm(forms.ModelForm):
                     'class': 'form-control form-control-sm'
                 }
             ),
-            'birthdate': forms.DateInput(
-                attrs={
-                    'class': 'form-control form-control-sm'
-                }
+            'birthdate': forms.SelectDateWidget(
+                attrs={'class': 'form-select form-select-sm mt-1'},
+                years=range(1920, datetime.now().year + 1)
             ),
             'position': forms.Select(
                 attrs={
@@ -110,4 +111,20 @@ class StaffForm(forms.ModelForm):
                     'class': 'form-control form-control-sm'
                 }
             )
+        }
+
+
+class PositionsForm(forms.ModelForm):
+    class Meta:
+        model = Positions
+        fields = (
+            'position_name',
+        )
+
+        widgets = {
+            'position_name': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm'
+                }
+            ),
         }
