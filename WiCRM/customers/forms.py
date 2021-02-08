@@ -137,6 +137,7 @@ class OrderForm(forms.ModelForm):
             'service',
             'price',
             'status',
+            'customer'
         )
 
         widgets = {

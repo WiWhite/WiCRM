@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, View
 from django.contrib.auth.models import User
 from .models import *
 from .forms import *
@@ -44,23 +44,35 @@ class CreateCustomer(CreateView):
             return self.form_invalid(form)
 
 
-class CreateOrder(CreateView):
-    model = Orders
-    form_class = OrderForm
-    template_name = 'customers/create_order.html'
-    success_url = reverse_lazy('detail_customer')
-
-
-class DetailCustomer(DetailView):
+class DetailCustomer(CreateView):
     model = Customers
+    form_class = OrderForm
     template_name = 'customers/detail_customer.html'
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        context['orders'] = Orders.objects.filter(customer=self.object.id)
+        customer = self.request.path.split('/')[-1]
+        context['orders'] = Orders.objects.filter(customer=customer)
+        context['object'] = Customers.objects.get(pk=customer)
         context['fields'] = Orders._meta.fields
-        context['form'] = OrderForm
+
         return context
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = self.get_object()
+        context = self.get_context_data(**kwargs)
+        self.request.POST = self.request.POST.copy()
+        self.request.POST['customer'] = self.object.id
+        form = self.form_class(self.request.POST)
+
+        if form.is_valid():
+            form.save()
+            context['form'] = self.form_class()
+            return render(self.request, self.template_name, context)
+        else:
+            return render(self.request, self.template_name, context)
 
 
 class SettingsStaff(CreateView):

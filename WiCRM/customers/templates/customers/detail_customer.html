@@ -37,7 +37,7 @@
     </div>
 </div>
 <div class="row mt-3">
-    <div class="col-md-2 col-sm-1 mt-3">
+    <div class="col-md-4 col-sm-1 mt-3">
         <!--        <h3>-->
         <!--            Actions:-->
         <!--        </h3>-->
@@ -47,13 +47,15 @@
         <h2 class="text-center">
             Create order:
         </h2>
-        <form action="{% url 'create_order' %}" method="post"
+        <form action="{% url 'detail_customer' object.id %}" method="post"
               class="form-control">
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group mt-2">
-                {{ field.label }}
-                {{ field }}
+                {% if field.label != 'Customer' %}
+                    {{ field.label }}
+                    {{ field }}
+                {% endif %}
             </div>
             {% endfor %}
             <div class="d-grid gap-2 mt-2">
@@ -62,7 +64,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-5 col-sm-5 mt-3">
+    <div class="col-md-7 col-sm-5 mt-3">
         <h2>
             Orders:
         </h2>
@@ -70,7 +72,7 @@
             <thead>
             <tr>
                 {% for field in fields %}
-                {% if field.verbose_name != 'Cr' and field.verbose_name != 'Up' and field.verbose_name != 'Customer' and field.verbose_name != 'ID' %}
+                {% if field.verbose_name != 'Up' and field.verbose_name != 'Customer' and field.verbose_name != 'ID' %}
                 <th scope="col">{{ field.verbose_name }}</th>
                 {% endif %}
                 {% endfor %}
@@ -79,18 +81,37 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+
                 {% for order in orders %}
-                <th scope="row">{{ order.id }}</th>
-                <td>{{ order.service }}</td>
-                <td>{{ order.price }}</td>
-                <td>{{ order.status }}</td>
-                <td scope="col"><a class="btn btn-sm btn-warning">Update</a>
-                </td>
-                <td scope="col"><a class="btn btn-sm btn-danger">Delete</a>
-                </td>
+                    <tr>
+                    <td>{{ order.service }}</td>
+                    <td>{{ order.price }}</td>
+                    {% if order.status == 0 %}
+                        <td>
+                            <span class="badge bg-danger">Conversation</span>
+                        </td>
+                    {% elif order.status == 1 %}
+                        <td>
+                            <span class="badge bg-warning text-dark">Signing</span>
+                        </td>
+                    {% elif order.status == 2 %}
+                        <td>
+                            <span class="badge bg-info text-dark">Pending</span>
+                        </td>
+                    {% else %}
+                        <td>
+                            <span class="badge bg-success">Done</span>
+                        </td>
+                    {% endif %}
+                    <td>{{ order.created_at }}</td>
+
+                    <td scope="col"><a class="btn btn-sm btn-warning">Update</a>
+                    </td>
+                    <td scope="col"><a class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                    </tr>
                 {% endfor %}
-            </tr>
+
             </tbody>
         </table>
     </div>

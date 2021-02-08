@@ -9,7 +9,6 @@ urlpatterns = [
     path('settings-staff/', SettingsStaff.as_view(), name='settings_staff'),
     path('settings-positions/', SettingsPositions.as_view(),
          name='settings_positions'),
-    path('create-order/', CreateOrder.as_view(), name='create_order'),
     path('settings-service/', SettingsService.as_view(),
          name='settings_services'),
 ]

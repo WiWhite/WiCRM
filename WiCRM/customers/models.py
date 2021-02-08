@@ -97,11 +97,7 @@ class Orders(models.Model):
         (2, 'Pending'),
         (3, 'Done'),
     )
-    customer = models.ForeignKey(
-        Customers,
-        on_delete=models.CASCADE,
-        verbose_name='Customer'
-    )
+
     service = models.ForeignKey(
         Services,
         on_delete=models.SET_NULL,
@@ -117,8 +113,13 @@ class Orders(models.Model):
         choices=STATUS_CHOICES,
         verbose_name='Status'
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Cr')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Start')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Up')
+    customer = models.ForeignKey(
+        Customers,
+        on_delete=models.CASCADE,
+        verbose_name='Customer'
+    )
 
     class Meta:
         verbose_name_plural = 'Orders'
