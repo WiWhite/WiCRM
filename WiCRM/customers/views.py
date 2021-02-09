@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, View
+from django.views.generic import ListView, CreateView, View, DeleteView
 from django.contrib.auth.models import User
 from .models import *
 from .forms import *
@@ -13,6 +13,7 @@ class CustomersList(ListView):
 
     def get_queryset(self):
         search = self.request.GET.get('search', '')
+        print(self.request.GET)
 
         if search:
             object_list = Customers.objects.filter(
@@ -122,3 +123,17 @@ class SettingsService(CreateView):
         context['services'] = Services.objects.all()
         context['fields'] = Services._meta.fields
         return context
+
+
+class DeleteCustomer(DeleteView):
+    model = Customers
+    template_name = 'customers/customers_list.html'
+    success_url = reverse_lazy('customers_list')
+
+    def post(self, request, *args, **kwargs):
+        print(request)
+        if request.POST:
+            customer = self.model.objects.get(pk=request.POST.id)
+            customer.delete()
+            return self.success_url
+
