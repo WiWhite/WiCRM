@@ -13,7 +13,6 @@ class CustomersList(ListView):
 
     def get_queryset(self):
         search = self.request.GET.get('search', '')
-        print(self.request.GET)
 
         if search:
             object_list = Customers.objects.filter(
@@ -26,6 +25,13 @@ class CustomersList(ListView):
             owner=self.request.user
         ).select_related()
         return object_list
+
+    def post(self, request, *args, **kwargs):
+        pk = self.request.POST.get('pk')
+        if pk:
+            customer = self.model.objects.get(pk=pk)
+            customer.delete()
+            return redirect('customers_list')
 
 
 class CreateCustomer(CreateView):
@@ -125,15 +131,14 @@ class SettingsService(CreateView):
         return context
 
 
-class DeleteCustomer(DeleteView):
-    model = Customers
-    template_name = 'customers/customers_list.html'
-    success_url = reverse_lazy('customers_list')
-
-    def post(self, request, *args, **kwargs):
-        print(request)
-        if request.POST:
-            customer = self.model.objects.get(pk=request.POST.id)
-            customer.delete()
-            return self.success_url
+# class DeleteCustomer(DeleteView):
+#     model = Customers
+#     template_name = 'customers/customers_list.html'
+#     success_url = reverse_lazy('customers_list')
+#
+#     def post(self, request, *args, **kwargs):
+#         if request.POST:
+#             customer = self.model.objects.get(pk=request.POST.id)
+#             customer.delete()
+#             return self.success_url
 
