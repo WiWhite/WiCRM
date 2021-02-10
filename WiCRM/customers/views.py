@@ -129,16 +129,3 @@ class SettingsService(CreateView):
         context['services'] = Services.objects.all()
         context['fields'] = Services._meta.fields
         return context
-
-
-# class DeleteCustomer(DeleteView):
-#     model = Customers
-#     template_name = 'customers/customers_list.html'
-#     success_url = reverse_lazy('customers_list')
-#
-#     def post(self, request, *args, **kwargs):
-#         if request.POST:
-#             customer = self.model.objects.get(pk=request.POST.id)
-#             customer.delete()
-#             return self.success_url
-
