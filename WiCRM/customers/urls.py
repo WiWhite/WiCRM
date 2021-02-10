@@ -11,6 +11,4 @@ urlpatterns = [
          name='settings_positions'),
     path('settings-service/', SettingsService.as_view(),
          name='settings_services'),
-    # path('delete-customer/<int:pk>', DeleteCustomer.as_view(),
-    #      name='delete_customer')
 ]

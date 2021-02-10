@@ -15,7 +15,7 @@
             <form action="{% url 'customers_list' %}" method="post">
                 <div class="modal-footer">
                     {% csrf_token %}
-                    <input type="hidden" class="form-control" name="pk">
+                    <input type="hidden" class="form-control" name="delete_pk">
                     <button type="button" class="btn btn-secondary"
                             data-dismiss="modal">Cancel
                     </button>

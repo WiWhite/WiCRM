@@ -9,6 +9,9 @@ from .forms import *
 class CustomersList(ListView):
     model = Customers
     template_name = 'customers/customers_list.html'
+    extra_context = {
+        'form': CustomerForm()
+    }
     paginate_by = 12
 
     def get_queryset(self):
@@ -27,11 +30,15 @@ class CustomersList(ListView):
         return object_list
 
     def post(self, request, *args, **kwargs):
-        pk = self.request.POST.get('pk')
-        if pk:
-            customer = self.model.objects.get(pk=pk)
+
+        delete_pk = self.request.POST.get('delete_pk')
+        if delete_pk:
+            customer = self.model.objects.get(pk=delete_pk)
             customer.delete()
             return redirect('customers_list')
+        #
+        # update_pk = self.request.POST.get('update_pk')
+        # if update_pk:
 
 
 class CreateCustomer(CreateView):
