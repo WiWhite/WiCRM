@@ -47,8 +47,8 @@
             {% for field in form %}
             <div class="form-group mt-2">
                 {% if field.label != 'Customer' %}
-                    {{ field.label }}
-                    {{ field }}
+                {{ field.label }}
+                {{ field }}
                 {% endif %}
             </div>
             {% endfor %}
@@ -78,36 +78,49 @@
             </thead>
             <tbody>
 
-                {% for order in orders %}
-                    <tr>
-                    <td>{{ order.service }}</td>
-                    <td>{{ order.price }}</td>
-                    {% if order.status == 0 %}
-                        <td>
-                            <span class="badge bg-danger">Conversation</span>
-                        </td>
-                    {% elif order.status == 1 %}
-                        <td>
-                            <span class="badge bg-warning text-dark">Signing</span>
-                        </td>
-                    {% elif order.status == 2 %}
-                        <td>
-                            <span class="badge bg-info text-dark">Pending</span>
-                        </td>
-                    {% else %}
-                        <td>
-                            <span class="badge bg-success">Done</span>
-                        </td>
-                    {% endif %}
-                    <td>{{ order.created_at }}</td>
-
-                    <td scope="col"><a class="btn btn-sm btn-warning">Update</a>
-                    </td>
-                    <td scope="col"><a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete"
-                                data-id="{{ order.id }}">Delete</a>
-                    </td>
-                    </tr>
-                {% endfor %}
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.service }}</td>
+                <td>{{ order.price }}</td>
+                {% if order.status == 0 %}
+                <td>
+                    <span class="badge bg-danger">Conversation</span>
+                </td>
+                {% elif order.status == 1 %}
+                <td>
+                    <span class="badge bg-warning text-dark">Signing</span>
+                </td>
+                {% elif order.status == 2 %}
+                <td>
+                    <span class="badge bg-info text-dark">Pending</span>
+                </td>
+                {% else %}
+                <td>
+                    <span class="badge bg-success">Done</span>
+                </td>
+                {% endif %}
+                <td>{{ order.created_at }}</td>
+                <td>
+                    <button type="button"
+                            class="btn btn-sm btn-warning"
+                            data-toggle="modal" data-target="#update"
+                            data-id="{{ order.id }}"
+                            data-service="{{ order.service_id }}"
+                            data-price="{{ order.price }}"
+                            data-status="{{ order.status }}">
+                        Update
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-sm btn-danger"
+                            data-toggle="modal" data-target="#delete"
+                            data-id="{{ order.id }}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
 
             </tbody>
         </table>

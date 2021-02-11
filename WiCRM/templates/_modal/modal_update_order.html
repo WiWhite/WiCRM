@@ -1,0 +1,39 @@
+<div class="modal fade" tabindex="-1" id="update" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Update order:</h5>
+                <button type="button" class="btn-close"
+                        data-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="{% url 'detail_customer' object.id %}"
+                          method="post"
+                          class="form-control">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            {% if field.label != 'Customer' %}
+                            {{ field.label }}
+                            {{ field }}
+                            {% endif %}
+                            {% endfor %}
+                            <div class="modal-footer">
+                                <input type="hidden" class="form-control"
+                                   name="update_pk">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Cancel
+                            </button>
+                            <button type="submit" class="btn btn-warning">
+                                Save
+                            </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

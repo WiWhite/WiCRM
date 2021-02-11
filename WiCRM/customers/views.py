@@ -82,14 +82,23 @@ class DetailCustomer(CreateView):
 
     def post(self, request, *args, **kwargs):
 
+        self.object = self.get_object()
         delete_pk = self.request.POST.get('delete_pk')
-
         if delete_pk:
             order = Orders.objects.get(pk=delete_pk)
             order.delete()
             return redirect(self.request.path)
 
-        self.object = self.get_object()
+        update_pk = self.request.POST.get('update_pk')
+        if update_pk:
+            order = Orders.objects.get(pk=update_pk)
+            self.request.POST = self.request.POST.copy()
+            self.request.POST['customer'] = self.object.id
+            form = OrderForm(self.request.POST, instance=order)
+            if form.is_valid():
+                form.save()
+                return redirect(self.request.path)
+
         context = self.get_context_data(**kwargs)
         self.request.POST = self.request.POST.copy()
         self.request.POST['customer'] = self.object.id

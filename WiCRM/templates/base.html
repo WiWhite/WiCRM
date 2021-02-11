@@ -34,6 +34,7 @@
 
     {% if request.path|slice:":27" == '/customers/detail-customer/' %}
         {% include '_modal/modal_del_order.html' %}
+        {% include '_modal/modal_update_order.html' %}
     {% endif %}
 </div>
 {% if paginator %}
@@ -88,6 +89,7 @@
 
 {% if request.path|slice:":27" == '/customers/detail-customer/' %}
     <script src="{% static 'js/modal_del_order.js' %}"></script>
+    <script src="{% static 'js/modal_update_order.js' %}"></script>
 {% endif %}
 </body>
 </html>

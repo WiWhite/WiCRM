@@ -1,0 +1,12 @@
+$('#update').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget)
+          var order_id = button.data('id')
+          var order_service = button.data('service')
+          var order_price = button.data('price')
+          var order_status = button.data('status')
+          var modal = $(this)
+          modal.find('.modal-body input[name="price"]').val(order_price)
+          modal.find('.modal-body select[name="service"]').val(order_service)
+          modal.find('.modal-body select[name="status"]').val(order_status)
+          modal.find('.modal-footer input.form-control').val(order_id)
+        })
