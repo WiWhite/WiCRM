@@ -20,4 +20,5 @@ $('#update').on('show.bs.modal', function (event) {
           modal.find('.modal-body input[name="email"]').val(customer_email)
           modal.find('.modal-body input[name="instagram"]').val(customer_instagram)
           modal.find('.modal-body select[name="curator"]').val(customer_curator)
+          modal.find('.modal-footer input.form-control').val(customer_id)
         })

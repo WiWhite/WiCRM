@@ -36,9 +36,17 @@ class CustomersList(ListView):
             customer = self.model.objects.get(pk=delete_pk)
             customer.delete()
             return redirect('customers_list')
-        #
-        # update_pk = self.request.POST.get('update_pk')
-        # if update_pk:
+
+        update_pk = self.request.POST.get('update_pk')
+        if update_pk:
+            customer = self.model.objects.get(pk=update_pk)
+            self.request.POST = self.request.POST.copy()
+            self.request.POST['owner'] = self.request.user
+            form = CustomerForm(self.request.POST, instance=customer)
+            if form.is_valid():
+                form.save()
+                return redirect('customers_list')
+
 
 
 class CreateCustomer(CreateView):
