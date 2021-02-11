@@ -48,7 +48,6 @@ class CustomersList(ListView):
                 return redirect('customers_list')
 
 
-
 class CreateCustomer(CreateView):
     model = Customers
     form_class = CustomerForm
@@ -104,16 +103,20 @@ class SettingsStaff(CreateView):
     success_url = reverse_lazy('settings_staff')
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         context['staff'] = Staff.objects.filter(owner=self.request.user)
         context['fields'] = Staff._meta.fields
+
         return context
 
     def post(self, request, *args, **kwargs):
+
         owner = User.objects.get(username=self.request.user)
         self.request.POST = self.request.POST.copy()
         self.request.POST['owner'] = f'{owner.pk}'
         form = self.form_class(self.request.POST)
+
         if form.is_valid():
             return self.form_valid(form)
         else:

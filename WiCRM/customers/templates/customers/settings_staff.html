@@ -5,7 +5,7 @@ Settings
 {% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card shadow p-2 mb-5">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
@@ -29,7 +29,7 @@ Settings
                         Create staff:
                     </h3>
                     <form action="{% url 'settings_staff' %}" method="post"
-                          class="form-control">
+                          class="form-control shadow p-2 mb-5">
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="form-group mt-2">
@@ -51,7 +51,7 @@ Settings
                     <h3>
                         Staff:
                     </h3>
-                    <table class="table table-bordered border-dark table-success table-striped table-sm">
+                    <table class="table table-bordered border-dark table-success table-striped table-sm shadow p-2 mb-5">
                         <thead>
                         <tr>
                             <th scope="col">Person</th>
