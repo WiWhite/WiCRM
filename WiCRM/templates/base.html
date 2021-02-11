@@ -28,8 +28,12 @@
     {% endblock %}
 
     {% if request.path == '/customers/' %}
-        {% include '_modal/modal_delete.html' %}
-        {% include '_modal/modal_update.html' %}
+        {% include '_modal/modal_del_customer.html' %}
+        {% include '_modal/modal_update_customer.html' %}
+    {% endif %}
+
+    {% if request.path|slice:":27" == '/customers/detail-customer/' %}
+        {% include '_modal/modal_del_order.html' %}
     {% endif %}
 </div>
 {% if paginator %}
@@ -77,7 +81,13 @@
 {% endif %}
 {% endif %}
 
-<script src="{% static 'js/modal_delete.js' %}"></script>
-<script src="{% static 'js/modal_update.js' %}"></script>
+{% if request.path == '/customers/' %}
+    <script src="{% static 'js/modal_del_customer.js' %}"></script>
+    <script src="{% static 'js/modal_update_customer.js' %}"></script>
+{% endif %}
+
+{% if request.path|slice:":27" == '/customers/detail-customer/' %}
+    <script src="{% static 'js/modal_del_order.js' %}"></script>
+{% endif %}
 </body>
 </html>

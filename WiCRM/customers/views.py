@@ -82,6 +82,13 @@ class DetailCustomer(CreateView):
 
     def post(self, request, *args, **kwargs):
 
+        delete_pk = self.request.POST.get('delete_pk')
+
+        if delete_pk:
+            order = Orders.objects.get(pk=delete_pk)
+            order.delete()
+            return redirect(self.request.path)
+
         self.object = self.get_object()
         context = self.get_context_data(**kwargs)
         self.request.POST = self.request.POST.copy()
@@ -105,7 +112,10 @@ class SettingsStaff(CreateView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        context['staff'] = Staff.objects.filter(owner=self.request.user)
+        context['staff'] = Staff.objects.filter(
+            owner=self.request.user,
+            dismissal=None
+        )
         context['fields'] = Staff._meta.fields
 
         return context
