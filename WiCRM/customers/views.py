@@ -134,12 +134,31 @@ class SettingsStaff(CreateView):
         owner = User.objects.get(username=self.request.user)
         self.request.POST = self.request.POST.copy()
         self.request.POST['owner'] = f'{owner.pk}'
-        form = self.form_class(self.request.POST)
 
+        delete_pk = self.request.POST.get('delete_pk')
+        if delete_pk:
+            staff = self.model.objects.get(pk=delete_pk)
+            staff.delete()
+            return redirect('settings_staff')
+
+        update_pk = self.request.POST.get('update_pk')
+        if update_pk:
+            staff = self.model.objects.get(pk=update_pk)
+            form = self.form_class(self.request.POST, instance=staff)
+            if form.is_valid():
+                form.save()
+                return redirect('settings_staff')
+
+        form = self.form_class(self.request.POST)
         if form.is_valid():
             return self.form_valid(form)
         else:
-            return self.form_invalid(form)
+            return self.form_invalid(form
+
+
+
+
+        )
 
 
 class SettingsPositions(CreateView):

@@ -106,10 +106,11 @@ class StaffForm(forms.ModelForm):
                     'class': 'form-select form-select-sm'
                 }
             ),
-            'dismissal': forms.DateInput(
+            'dismissal': forms.SelectDateWidget(
                 attrs={
-                    'class': 'form-control form-control-sm'
-                }
+                    'class': 'form-select form-select-sm mt-1',
+                },
+                years=range(datetime.now().year, datetime.now().year + 2)
             )
         }
 

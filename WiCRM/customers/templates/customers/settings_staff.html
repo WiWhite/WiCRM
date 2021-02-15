@@ -78,9 +78,32 @@ Settings
                                     {% else %}
                                         <td>{{ person.dismissal }}</td>
                                     {% endif %}
-                                    <td scope="col"><a class="btn btn-sm btn-warning">Update</a>
+                                    <td scope="col">
+                                        <button class="btn btn-sm btn-warning"
+                                                data-toggle="modal"
+                                                data-target="#update"
+                                                data-person="{{ person }}"
+                                                data-id="{{ person.id }}"
+                                                data-firstname="{{ person.first_name }}"
+                                                data-lastname="{{ person.last_name }}"
+                                                data-phonenumber="{{ person.phone_number }}"
+                                                data-birthdateday="{{ person.birthdate.day }}"
+                                                data-birthdatemonth="{{ person.birthdate.month }}"
+                                                data-birthdateyear="{{ person.birthdate.year }}"
+                                                data-position="{{ person.position_id }}"
+                                                data-sex="{{ person.sex }}"
+                                                data-dismissal="{{ person.dismissal }}">
+                                            Update
+                                        </button>
                                     </td>
-                                    <td scope="col"><a class="btn btn-sm btn-danger">Delete</a>
+                                    <td scope="col">
+                                        <button class="btn btn-sm btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#delete"
+                                                data-id="{{ person.id }}"
+                                                data-person="{{ person }}">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             {% endfor %}
