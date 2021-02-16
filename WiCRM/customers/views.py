@@ -74,10 +74,9 @@ class DetailCustomer(CreateView):
 
     def get_context_data(self, **kwargs):
 
+        self.object = self.get_object()
         context = super().get_context_data(**kwargs)
-        customer = self.request.path.split('/')[-1]
-        context['orders'] = Orders.objects.filter(customer=customer)
-        context['object'] = Customers.objects.get(pk=customer)
+        context['orders'] = Orders.objects.filter(customer=self.object.id)
         context['fields'] = Orders._meta.fields
 
         return context
@@ -101,17 +100,21 @@ class DetailCustomer(CreateView):
                 form.save()
                 return redirect(self.request.path)
 
-        context = self.get_context_data(**kwargs)
         self.request.POST = self.request.POST.copy()
         self.request.POST['customer'] = self.object.id
         form = self.form_class(self.request.POST)
 
         if form.is_valid():
             form.save()
-            context['form'] = self.form_class()
-            return render(self.request, self.template_name, context)
+            return self.form_valid(form)
         else:
-            return render(self.request, self.template_name, context)
+            return self.form_invalid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            'detail_customer',
+            args=(self.request.path.split('/')[-1])
+        )
 
 
 class SettingsStaff(CreateView):
