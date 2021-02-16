@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .models import *
 from .forms import *
 
+from .mixins import *
+
 
 class CustomersList(ListView):
     model = Customers
@@ -153,64 +155,19 @@ class SettingsStaff(CreateView):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            return self.form_invalid(form
+            return self.form_invalid(form)
 
 
-
-
-        )
-
-
-class SettingsPositions(CreateView):
+class SettingsPositions(CreateDelObjectMixin):
     model = Positions
     form_class = PositionsForm
     template_name = 'customers/settings_positions.html'
     success_url = reverse_lazy('settings_positions')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['positions'] = Positions.objects.all()
-        context['fields'] = Positions._meta.fields
-        return context
 
-    def post(self, request, *args, **kwargs):
-
-        delete_pk = self.request.POST.get('delete_pk')
-        if delete_pk:
-            staff = self.model.objects.get(pk=delete_pk)
-            staff.delete()
-            return redirect('settings_positions')
-
-        form = self.form_class(self.request.POST)
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class SettingsService(CreateView):
+class SettingsService(CreateDelObjectMixin):
     model = Services
     form_class = ServicesForm
     template_name = 'customers/settings_services.html'
     success_url = reverse_lazy('settings_services')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['services'] = Services.objects.all()
-        context['fields'] = Services._meta.fields
-        return context
-
-    def post(self, request, *args, **kwargs):
-
-        delete_pk = self.request.POST.get('delete_pk')
-        if delete_pk:
-            staff = self.model.objects.get(pk=delete_pk)
-            staff.delete()
-            return redirect('settings_services')
-
-        form = self.form_class(self.request.POST)
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
 

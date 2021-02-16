@@ -46,7 +46,7 @@ Settings
                         </div>
                     </form>
                 </div>
-                {% if positions %}
+                {% if objects %}
                 <div class="col-md-5 col-sm-5 mt-3">
                     <h3>
                         Positions:
@@ -64,7 +64,7 @@ Settings
                         </thead>
                         <tbody>
 
-                                {% for position in positions %}
+                                {% for position in objects %}
                                 <tr>
                                     <td>{{ position.position_name }}</td>
                                     <td>

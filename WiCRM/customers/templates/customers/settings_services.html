@@ -46,7 +46,7 @@ Settings
                         </div>
                     </form>
                 </div>
-                {% if services %}
+                {% if objects %}
                 <div class="col-md-5 col-sm-5 mt-3">
                     <h3>
                         Services:
@@ -63,7 +63,7 @@ Settings
                         </tr>
                         </thead>
                         <tbody>
-                                {% for service in services %}
+                                {% for service in objects %}
                                 <tr>
                                     <td>{{ service.service_name }}</td>
                                     <td>
