@@ -45,6 +45,10 @@
     {% if request.path == '/customers/settings-service/' %}
         {% include '_modal/modal_del_service.html' %}
     {% endif %}
+
+    {% if request.path == '/customers/settings-positions/' %}
+        {% include '_modal/modal_del_position.html' %}
+    {% endif %}
 </div>
 {% if paginator %}
 {% if page_obj.has_other_pages %}
@@ -108,6 +112,10 @@
 
 {% if request.path == '/customers/settings-service/' %}
     <script src="{% static 'js/modal_del_service.js' %}"></script>
+{% endif %}
+
+{% if request.path == '/customers/settings-positions/' %}
+    <script src="{% static 'js/modal_del_position.js' %}"></script>
 {% endif %}
 </body>
 </html>

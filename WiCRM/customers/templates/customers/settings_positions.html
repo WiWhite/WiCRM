@@ -68,7 +68,13 @@ Settings
                                 <tr>
                                     <td>{{ position.position_name }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-danger">Delete</a>
+                                        <button class="btn btn-sm btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#delete"
+                                                data-id="{{ position.id }}"
+                                                data-service="{{ position }}">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                                 {% endfor %}
