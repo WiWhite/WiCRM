@@ -3,8 +3,18 @@ from datetime import datetime
 from django import forms
 from .models import *
 
+from phonenumber_field.formfields import PhoneNumberField
+
 
 class CustomerForm(forms.ModelForm):
+
+    phone_number = PhoneNumberField(widget=forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Phone Number'
+                }
+            ))
+
     class Meta:
         model = Customers
         fields = (
@@ -21,42 +31,43 @@ class CustomerForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'First Name'
                 }
             ),
             'last_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Last Name'
                 }
             ),
             'company': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
-                }
-            ),
-            'phone_number': forms.TextInput(
-                attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Company'
                 }
             ),
             'email': forms.EmailInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'E-mail'
                 }
             ),
             'instagram': forms.URLInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'URL Instagram'
                 }
             ),
             'service': forms.Select(
                 attrs={
-                    'class': 'form-select form-select-sm'
+                    'class': 'form-select form-select-sm',
+                    'placeholder': 'Service'
                 }
             ),
             'curator': forms.Select(
                 attrs={
-                    'class': 'form-select form-select-sm'
+                    'class': 'form-select form-select-sm',
                 }
             ),
         }

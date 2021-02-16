@@ -41,11 +41,15 @@
         {% include '_modal/modal_del_staff.html' %}
         {% include '_modal/modal_update_staff.html' %}
     {% endif %}
+
+    {% if request.path == '/customers/settings-service/' %}
+        {% include '_modal/modal_del_service.html' %}
+    {% endif %}
 </div>
 {% if paginator %}
 {% if page_obj.has_other_pages %}
 
-<nav aria-label="Page navigation example">
+<nav aria-label="btn-toolbar">
     <ul class="pagination justify-content-center mt-3">
 
         {% if not page_obj.has_previous %}
@@ -62,7 +66,7 @@
         {% for n in paginator.page_range %}
         {% if n == page_obj.number %}
         <li class="page-item active">
-      <span class="page-link">
+      <span class="btn btn-secondary">
         {{n}}
         <span class="sr-only"></span>
       </span>
@@ -100,6 +104,10 @@
 {% if request.path == '/customers/settings-staff/' %}
     <script src="{% static 'js/modal_del_staff.js' %}"></script>
     <script src="{% static 'js/modal_update_staff.js' %}"></script>
+{% endif %}
+
+{% if request.path == '/customers/settings-service/' %}
+    <script src="{% static 'js/modal_del_service.js' %}"></script>
 {% endif %}
 </body>
 </html>

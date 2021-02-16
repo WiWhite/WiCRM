@@ -67,7 +67,13 @@ Settings
                                 <tr>
                                     <td>{{ service.service_name }}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-danger">Delete</a>
+                                        <button class="btn btn-sm btn-danger"
+                                                data-toggle="modal"
+                                                data-target="#delete"
+                                                data-id="{{ service.id }}"
+                                                data-service="{{ service }}">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                                 {% endfor %}

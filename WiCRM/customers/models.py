@@ -8,7 +8,7 @@ class Customers(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=30)
     company = models.CharField(max_length=50)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(blank=True)
     email = models.EmailField(max_length=30)
     instagram = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)

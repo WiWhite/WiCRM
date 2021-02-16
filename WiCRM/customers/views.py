@@ -185,3 +185,18 @@ class SettingsService(CreateView):
         context['services'] = Services.objects.all()
         context['fields'] = Services._meta.fields
         return context
+
+    def post(self, request, *args, **kwargs):
+
+        delete_pk = self.request.POST.get('delete_pk')
+        if delete_pk:
+            staff = self.model.objects.get(pk=delete_pk)
+            staff.delete()
+            return redirect('settings_services')
+
+        form = self.form_class(self.request.POST)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
