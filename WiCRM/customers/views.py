@@ -37,7 +37,7 @@ class CustomersList(ListView):
         if delete_pk:
             customer = self.model.objects.get(pk=delete_pk)
             customer.delete()
-            return redirect('customers_list')
+            return redirect(self.request.path)
 
         update_pk = self.request.POST.get('update_pk')
         if update_pk:
@@ -67,7 +67,7 @@ class CreateCustomer(CreateView):
             return self.form_invalid(form)
 
 
-class DetailCustomer(CreateView):
+class DetailCustomer(CreateView,):
     model = Customers
     form_class = OrderForm
     template_name = 'customers/detail_customer.html'
@@ -94,7 +94,7 @@ class DetailCustomer(CreateView):
         if update_pk:
             order = Orders.objects.get(pk=update_pk)
             self.request.POST = self.request.POST.copy()
-            self.request.POST['customer'] = self.object.id
+            self.request.POST['customer'] = order.customer_id
             form = OrderForm(self.request.POST, instance=order)
             if form.is_valid():
                 form.save()

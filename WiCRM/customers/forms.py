@@ -90,17 +90,20 @@ class StaffForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'First Name'
                 }
             ),
             'last_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Last Name'
                 }
             ),
             'phone_number': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Phone Number'
                 }
             ),
             'birthdate': forms.SelectDateWidget(
@@ -136,7 +139,8 @@ class PositionsForm(forms.ModelForm):
         widgets = {
             'position_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Position'
                 }
             ),
         }
@@ -181,7 +185,8 @@ class ServicesForm(forms.ModelForm):
         widgets = {
             'service_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control form-control-sm'
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Service'
                 }
             ),
         }
