@@ -18,4 +18,4 @@ class Registration(View):
 
         if form.is_valid():
             form.save()
-            return redirect('customers_list')
+            return redirect('login')
