@@ -28,6 +28,7 @@ class Customers(models.Model):
 class Services(models.Model):
 
     service_name = models.CharField(max_length=50, verbose_name='Service name')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.service_name}'
@@ -80,6 +81,7 @@ class Positions(models.Model):
         max_length=20,
         verbose_name='Position name'
     )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.position_name}'

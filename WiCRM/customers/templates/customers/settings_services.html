@@ -34,8 +34,10 @@ Settings
                         {% csrf_token %}
                         {% for field in form %}
                         <div class="form-group mt-2">
-                            {{ field.label }}
-                            {{ field }}
+                            {% if field.label != 'Owner' %}
+                                {{ field.label }}
+                                {{ field }}
+                            {% endif %}
                         </div>
                         {% endfor %}
                         <div class="d-grid gap-2 mt-2">
@@ -55,7 +57,7 @@ Settings
                         <thead>
                         <tr>
                             {% for field in fields %}
-                                {% if field.verbose_name != 'ID' %}
+                                {% if field.verbose_name == 'Service name' %}
                                     <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}

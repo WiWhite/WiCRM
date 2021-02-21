@@ -134,6 +134,7 @@ class PositionsForm(forms.ModelForm):
         model = Positions
         fields = (
             'position_name',
+            'owner'
         )
 
         widgets = {
@@ -180,6 +181,7 @@ class ServicesForm(forms.ModelForm):
         model = Services
         fields = (
             'service_name',
+            'owner'
         )
 
         widgets = {
