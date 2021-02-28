@@ -11,8 +11,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+            integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+            integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
             crossorigin="anonymous"></script>
     <title>
         {% block title %}
@@ -28,26 +34,26 @@
     {% endblock %}
 
     {% if request.path == '/customers/' %}
-        {% include '_modal/modal_del_customer.html' %}
-        {% include '_modal/modal_update_customer.html' %}
+    {% include '_modal/modal_del_customer.html' %}
+    {% include '_modal/modal_update_customer.html' %}
     {% endif %}
 
     {% if request.path|slice:":27" == '/customers/detail-customer/' %}
-        {% include '_modal/modal_del_order.html' %}
-        {% include '_modal/modal_update_order.html' %}
+    {% include '_modal/modal_del_order.html' %}
+    {% include '_modal/modal_update_order.html' %}
     {% endif %}
 
     {% if request.path == '/customers/settings-staff/' %}
-        {% include '_modal/modal_del_staff.html' %}
-        {% include '_modal/modal_update_staff.html' %}
+    {% include '_modal/modal_del_staff.html' %}
+    {% include '_modal/modal_update_staff.html' %}
     {% endif %}
 
     {% if request.path == '/customers/settings-service/' %}
-        {% include '_modal/modal_del_service.html' %}
+    {% include '_modal/modal_del_service.html' %}
     {% endif %}
 
     {% if request.path == '/customers/settings-positions/' %}
-        {% include '_modal/modal_del_position.html' %}
+    {% include '_modal/modal_del_position.html' %}
     {% endif %}
 </div>
 {% if paginator %}
@@ -76,7 +82,8 @@
       </span>
         </li>
         {% else %}
-        <li class="page-item"><a class="btn btn-outline-secondary bg-gradient" href="?page={{n}}">{{n}}</a>
+        <li class="page-item"><a class="btn btn-outline-secondary bg-gradient"
+                                 href="?page={{n}}">{{n}}</a>
         </li>
         {% endif %}
         {% endfor %}
@@ -87,7 +94,8 @@
         </li>
         {% else %}
         <li class="page-item">
-            <a class="btn btn-outline-secondary bg-gradient" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-secondary bg-gradient"
+               href="?page={{ page_obj.next_page_number }}">Next</a>
         </li>
         {% endif %}
     </ul>
@@ -96,26 +104,26 @@
 {% endif %}
 
 {% if request.path == '/customers/' %}
-    <script src="{% static 'js/modal_del_customer.js' %}"></script>
-    <script src="{% static 'js/modal_update_customer.js' %}"></script>
+<script src="{% static 'js/modal_del_customer.js' %}"></script>
+<script src="{% static 'js/modal_update_customer.js' %}"></script>
 {% endif %}
 
 {% if request.path|slice:":27" == '/customers/detail-customer/' %}
-    <script src="{% static 'js/modal_del_order.js' %}"></script>
-    <script src="{% static 'js/modal_update_order.js' %}"></script>
+<script src="{% static 'js/modal_del_order.js' %}"></script>
+<script src="{% static 'js/modal_update_order.js' %}"></script>
 {% endif %}
 
 {% if request.path == '/customers/settings-staff/' %}
-    <script src="{% static 'js/modal_del_staff.js' %}"></script>
-    <script src="{% static 'js/modal_update_staff.js' %}"></script>
+<script src="{% static 'js/modal_del_staff.js' %}"></script>
+<script src="{% static 'js/modal_update_staff.js' %}"></script>
 {% endif %}
 
 {% if request.path == '/customers/settings-service/' %}
-    <script src="{% static 'js/modal_del_service.js' %}"></script>
+<script src="{% static 'js/modal_del_service.js' %}"></script>
 {% endif %}
 
 {% if request.path == '/customers/settings-positions/' %}
-    <script src="{% static 'js/modal_del_position.js' %}"></script>
+<script src="{% static 'js/modal_del_position.js' %}"></script>
 {% endif %}
 </body>
 </html>

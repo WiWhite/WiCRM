@@ -9,9 +9,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" aria-current="page"
-                   href="#">Home</a>
                 {% if request.user.is_authenticated %}
+                    <a class="nav-link" aria-current="page"
+                        href="#">Home</a>
                     <a class="nav-link" aria-current="page"
                        href="{% url 'customers_list' %}">Customers</a>
                     <a class="nav-link" href="{% url 'create_customer' %}">Create
