@@ -4,16 +4,19 @@ from django import forms
 from .models import *
 
 from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 
 class CustomerForm(forms.ModelForm):
 
-    phone_number = PhoneNumberField(widget=forms.TextInput(
-                attrs={
-                    'class': 'form-control form-control-sm',
-                    'placeholder': 'Phone Number'
-                }
-            ))
+    phone_number = PhoneNumberField(
+        widget=PhoneNumberPrefixWidget(
+            attrs={
+                            'class': 'form-control form-control-sm',
+                            'placeholder': 'Phone Number'
+                        }
+        )
+    )
 
     class Meta:
         model = Customers
@@ -74,6 +77,16 @@ class CustomerForm(forms.ModelForm):
 
 
 class StaffForm(forms.ModelForm):
+
+    phone_number = PhoneNumberField(
+        widget=PhoneNumberPrefixWidget(
+            attrs={
+                'class': 'form-control form-control-sm',
+                'placeholder': 'Phone Number'
+            }
+        )
+    )
+
     class Meta:
         model = Staff
         fields = (
@@ -98,12 +111,6 @@ class StaffForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control form-control-sm',
                     'placeholder': 'Last Name'
-                }
-            ),
-            'phone_number': forms.TextInput(
-                attrs={
-                    'class': 'form-control form-control-sm',
-                    'placeholder': 'Phone Number'
                 }
             ),
             'birthdate': forms.SelectDateWidget(

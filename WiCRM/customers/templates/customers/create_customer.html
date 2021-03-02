@@ -14,8 +14,16 @@ Create customer
         {% for field in form %}
             <div class="form-group mt-2">
                 {% if field.label != 'Owner' %}
-                    {{ field.label }}
-                    {{ field }}
+                    {% if field.label == 'Phone number' %}
+                        {{ field.label }}
+                         <div class="input-group mb-3">
+                             {{ field }}
+                         </div>
+                    {% else %}
+                        {{ field.label }}
+                        {{ field }}
+                    {% endif %}
+
                 {% endif %}
             </div>
         {% endfor %}

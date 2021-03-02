@@ -13,7 +13,8 @@ Settings
                    href="{% url 'settings_staff' %}">Staff</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-secondary" href="{% url 'settings_positions' %}">Position</a>
+                <a class="nav-link text-secondary"
+                   href="{% url 'settings_positions' %}">Position</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-secondary" aria-current="true"
@@ -34,8 +35,15 @@ Settings
                         {% for field in form %}
                             <div class="form-group mt-2">
                                 {% if field.label != 'Owner' %}
-                                    {{ field.label }}
-                                    {{ field }}
+                                    {% if field.label == 'Phone number' %}
+                                        {{ field.label }}
+                                        <div class="input-group mb-3">
+                                            {{ field }}
+                                        </div>
+                                    {% else %}
+                                        {{ field.label }}
+                                        {{ field }}
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         {% endfor %}
@@ -58,7 +66,7 @@ Settings
                             <th scope="col">Person</th>
                             {% for field in fields %}
                                 {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' %}
-                                <th scope="col">{{ field.verbose_name }}</th>
+                                    <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}
                             <th scope="col">Update</th>
@@ -67,47 +75,47 @@ Settings
                         </thead>
                         <tbody>
 
-                            {% for person in staff %}
-                                <tr>
-                                    <td>{{ person }}</td>
-                                    <td>{{ person.phone_number }}</td>
-                                    <td>{{ person.birthdate }}</td>
-                                    <td>{{ person.position }}</td>
-                                    <td>{{ person.hiring_date }}</td>
-                                    {% if person.dismissal is None %}
-                                        <td>-</td>
-                                    {% else %}
-                                        <td>{{ person.dismissal }}</td>
-                                    {% endif %}
-                                    <td scope="col">
-                                        <button class="btn btn-sm btn-warning"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#update"
-                                                data-person="{{ person }}"
-                                                data-id="{{ person.id }}"
-                                                data-firstname="{{ person.first_name }}"
-                                                data-lastname="{{ person.last_name }}"
-                                                data-phonenumber="{{ person.phone_number }}"
-                                                data-birthdateday="{{ person.birthdate.day }}"
-                                                data-birthdatemonth="{{ person.birthdate.month }}"
-                                                data-birthdateyear="{{ person.birthdate.year }}"
-                                                data-position="{{ person.position_id }}"
-                                                data-sex="{{ person.sex }}"
-                                                data-dismissal="{{ person.dismissal }}">
-                                            Update
-                                        </button>
-                                    </td>
-                                    <td scope="col">
-                                        <button class="btn btn-sm btn-danger"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#delete"
-                                                data-id="{{ person.id }}"
-                                                data-person="{{ person }}">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                        {% for person in staff %}
+                        <tr>
+                            <td>{{ person }}</td>
+                            <td>{{ person.phone_number }}</td>
+                            <td>{{ person.birthdate }}</td>
+                            <td>{{ person.position }}</td>
+                            <td>{{ person.hiring_date }}</td>
+                            {% if person.dismissal is None %}
+                            <td>-</td>
+                            {% else %}
+                            <td>{{ person.dismissal }}</td>
+                            {% endif %}
+                            <td scope="col">
+                                <button class="btn btn-sm btn-warning"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#update"
+                                        data-person="{{ person }}"
+                                        data-id="{{ person.id }}"
+                                        data-firstname="{{ person.first_name }}"
+                                        data-lastname="{{ person.last_name }}"
+                                        data-phonenumber="{{ person.phone_number }}"
+                                        data-birthdateday="{{ person.birthdate.day }}"
+                                        data-birthdatemonth="{{ person.birthdate.month }}"
+                                        data-birthdateyear="{{ person.birthdate.year }}"
+                                        data-position="{{ person.position_id }}"
+                                        data-sex="{{ person.sex }}"
+                                        data-dismissal="{{ person.dismissal }}">
+                                    Update
+                                </button>
+                            </td>
+                            <td scope="col">
+                                <button class="btn btn-sm btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#delete"
+                                        data-id="{{ person.id }}"
+                                        data-person="{{ person }}">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
 
                         </tbody>
                     </table>
