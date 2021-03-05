@@ -113,9 +113,13 @@ class StaffForm(forms.ModelForm):
                     'placeholder': 'Last Name'
                 }
             ),
-            'birthdate': forms.SelectDateWidget(
-                attrs={'class': 'form-select form-select-sm mt-1'},
-                years=range(1920, datetime.now().year + 1)
+            'birthdate': forms.DateInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'id': 'datepicker',
+                    'width': '240',
+                    'readonly': 'readonly'
+                }
             ),
             'position': forms.Select(
                 attrs={
@@ -127,11 +131,13 @@ class StaffForm(forms.ModelForm):
                     'class': 'form-select form-select-sm'
                 }
             ),
-            'dismissal': forms.SelectDateWidget(
+            'dismissal': forms.DateInput(
                 attrs={
-                    'class': 'form-select form-select-sm mt-1',
+                    'class': 'form-control form-control-sm',
+                    'id': 'datepicker1',
+                    'width': '385',
+                    'readonly': 'readonly'
                 },
-                years=range(datetime.now().year, datetime.now().year + 2)
             )
         }
 

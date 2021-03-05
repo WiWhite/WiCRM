@@ -34,7 +34,7 @@ Settings
                         {% csrf_token %}
                         {% for field in form %}
                             <div class="form-group mt-2">
-                                {% if field.label != 'Owner' %}
+                                {% if field.label != 'Owner' and field.label != 'Dismissal' %}
                                     {% if field.label == 'Phone number' %}
                                         {{ field.label }}
                                         <div class="input-group mb-3">
@@ -79,9 +79,9 @@ Settings
                         <tr>
                             <td>{{ person }}</td>
                             <td>{{ person.phone_number }}</td>
-                            <td>{{ person.birthdate }}</td>
+                            <td>{{ person.birthdate|date:'m/d/Y' }}</td>
                             <td>{{ person.position }}</td>
-                            <td>{{ person.hiring_date }}</td>
+                            <td>{{ person.hiring_date|date:'m/d/Y' }}</td>
                             {% if person.dismissal is None %}
                             <td>-</td>
                             {% else %}
@@ -96,9 +96,7 @@ Settings
                                         data-firstname="{{ person.first_name }}"
                                         data-lastname="{{ person.last_name }}"
                                         data-phonenumber="{{ person.phone_number }}"
-                                        data-birthdateday="{{ person.birthdate.day }}"
-                                        data-birthdatemonth="{{ person.birthdate.month }}"
-                                        data-birthdateyear="{{ person.birthdate.year }}"
+                                        data-birthdate="{{ person.birthdate|date:'m/d/Y' }}"
                                         data-position="{{ person.position_id }}"
                                         data-sex="{{ person.sex }}"
                                         data-dismissal="{{ person.dismissal }}">
