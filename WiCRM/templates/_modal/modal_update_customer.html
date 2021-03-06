@@ -17,9 +17,16 @@
                             {% csrf_token %}
                             {% for field in form %}
                             {% if field.label != 'Owner' %}
-                            {{ field.label }}
-                            {{ field }}
-                            {% endif %}
+                                {% if field.label == 'Phone number' %}
+                                            {{ field.label }}
+                                            <div class="input-group">
+                                                {{ field }}
+                                            </div>
+                                        {% else %}
+                                            {{ field.label }}
+                                            {{ field }}
+                                        {% endif %}
+                                {% endif %}
                             {% endfor %}
                             <div class="modal-footer">
                                 <input type="hidden" class="form-control"

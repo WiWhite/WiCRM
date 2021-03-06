@@ -8,7 +8,7 @@ from .forms import *
 from .mixins import *
 
 
-class CustomersList(ListView):
+class CustomersList(ObjListUpdateDeleteMixin):
     """
     View is responsible for displaying the customer card.
     """
@@ -18,45 +18,8 @@ class CustomersList(ListView):
         'form': CustomerForm()
     }
     paginate_by = 12
-
-    def get_queryset(self):
-
-        # customer card search request
-        search = self.request.GET.get('search', '')
-
-        if search:
-            # filtering customers by company and owner
-            object_list = Customers.objects.filter(
-                company=search,
-                owner=self.request.user
-            ).select_related()
-            return object_list
-
-        # filtering customers by owner
-        object_list = Customers.objects.filter(
-            owner=self.request.user
-        ).select_related()
-        return object_list
-
-    def post(self, request, *args, **kwargs):
-
-        # customer card delete request
-        delete_pk = self.request.POST.get('delete_pk')
-        if delete_pk:
-            customer = self.model.objects.get(pk=delete_pk)
-            customer.delete()
-            return redirect(self.request.path)
-
-        # customer card update request
-        update_pk = self.request.POST.get('update_pk')
-        if update_pk:
-            customer = self.model.objects.get(pk=update_pk)
-            self.request.POST = self.request.POST.copy()  # a copy of POST is created because this object is immutable
-            self.request.POST['owner'] = self.request.user  # add customer owner
-            form = CustomerForm(self.request.POST, instance=customer)
-            if form.is_valid():
-                form.save()
-                return redirect('customers_list')
+    name_url = 'customers_list'
+    form_class = CustomerForm
 
 
 class CreateCustomer(CreateView):

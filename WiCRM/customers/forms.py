@@ -82,7 +82,7 @@ class StaffForm(forms.ModelForm):
         widget=PhoneNumberPrefixWidget(
             attrs={
                 'class': 'form-control form-control-sm',
-                'placeholder': 'Phone Number'
+                'placeholder': 'Phone number'
             }
         )
     )
