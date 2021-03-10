@@ -1,24 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Login
 {% endblock %}
 
 {% block content %}
-<div class="row mt-5">
-    <div class="container col-md-4 justify-content-center align-items-center shadow p-2 mb-5">
-    <h3 class="text-center mt-2">Login:</h3>
-    <form class="form-control mt-2" method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d-grid gap-2 mt-2">
-            <button class="btn btn-outline-success bg-gradient"
-                    type="submit">
-                Login
-            </button>
+<div class="card shadow p-2 mb-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'registration' %}">Registration</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true"
+                   href="{% url 'login' %}">Login</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-5 shadow p-2 mb-5 mt-5">
+                    <div class="container mt-3">
+                        <form action="{% url 'login' %}" method="post"
+                              class="form-control">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-outline-success bg-gradient"
+                                        type="submit">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-5 shadow p-2 mb-5 mt-5">
+                    <img src="{% static 'images/login.gif' %}"/>
+                </div>
+            </div>
         </div>
-    </form>
-</div>
+    </div>
 </div>
 
 {% endblock %}

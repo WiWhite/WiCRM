@@ -7,36 +7,44 @@ Registration
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-4 col-sm-5 shadow p-2 mb-5 mt-5">
-        <h3 class="text-center">Registration:</h3>
-        <div class="container mt-3">
-            <form action="{% url 'registration' %}" method="post"
-                  class="form-control">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="d-grid gap-2 mt-2">
-                    <button class="btn btn-outline-success bg-gradient"
-                            type="submit">
-                        Save
-                    </button>
-                </div>
-            </form>
-        </div>
+<div class="card shadow p-2 mb-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true"
+                   href="{% url 'registration' %}">Registration</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'login' %}">Login</a>
+            </li>
+        </ul>
     </div>
-    <div class="col-md-7 col-sm-5 shadow p-2 mb-5 mt-5">
-        <div id="carouselExampleSlidesOnly" class="carousel slide"
-             data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{% static 'images/customers.png' %}" class="d-block w-100" alt="...">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-5 shadow p-2 mb-5 mt-5">
+                    <div class="container mt-3">
+                        <form action="{% url 'registration' %}" method="post"
+                              class="form-control">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-outline-success bg-gradient"
+                                        type="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="carousel-item">
-                    <img src="{% static 'images/settings.png' %}" class="d-block w-100" alt="...">
+                <div class="col-md-8 col-sm-5 shadow p-2 mb-5 mt-5">
+                    <img src="{% static 'images/registration.gif' %}"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 {% endblock %}
