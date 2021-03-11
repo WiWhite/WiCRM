@@ -11,4 +11,5 @@ urlpatterns = [
          name='settings_positions'),
     path('settings-service/', SettingsService.as_view(),
          name='settings_services'),
+    path('logout/', Logout.as_view(), name='logout'),
 ]

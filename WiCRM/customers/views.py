@@ -6,6 +6,14 @@ from .models import *
 from .forms import *
 
 from .mixins import *
+from django.contrib.auth import logout
+
+
+class Logout(View):
+
+    def get(self, request):
+        logout(request)
+        return redirect('login')
 
 
 class CustomersList(ObjListUpdateDeleteMixin):
