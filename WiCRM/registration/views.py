@@ -19,3 +19,10 @@ class Registration(View):
         if form.is_valid():
             form.save()
             return redirect('login')
+
+        else:
+            return render(
+                request,
+                'registration/registration.html',
+                {'form': form}
+            )
