@@ -1,7 +1,8 @@
 from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 class CreateDelObjectMixin(CreateView):
@@ -16,12 +17,17 @@ class CreateDelObjectMixin(CreateView):
         context['fields'] = self.model._meta.fields
         return context
 
+    def delete(self, delete_pk):
+
+        obj = self.model.objects.get(pk=delete_pk)
+        obj.delete()
+        messages.success(self.request, f'{obj} successfully deleted!')
+
     def post(self, request, *args, **kwargs):
 
         delete_pk = self.request.POST.get('delete_pk')
         if delete_pk:
-            obj = self.model.objects.get(pk=delete_pk)
-            obj.delete()
+            self.delete(delete_pk)
             return redirect(self.request.path)
 
         owner = User.objects.get(username=self.request.user)
@@ -59,17 +65,24 @@ class ObjListUpdateDeleteMixin(ListView):
 
     def delete(self, delete_pk):
 
-        customer = self.model.objects.get(pk=delete_pk)
-        customer.delete()
+        obj = self.model.objects.get(pk=delete_pk)
+        obj.delete()
+        messages.success(self.request, f'{obj} successfully deleted!')
 
     def update(self, update_pk):
 
-        customer = self.model.objects.get(pk=update_pk)
+        obj = self.model.objects.get(pk=update_pk)
         self.request.POST = self.request.POST.copy()  # a copy of POST is created because this object is immutable
         self.request.POST['owner'] = self.request.user  # add customer owner
-        form = self.form_class(self.request.POST, instance=customer)
+        form = self.form_class(self.request.POST, instance=obj)
         if form.is_valid():
             form.save()
+            messages.success(self.request, f'{obj} successfully updated!')
+        else:
+            messages.error(
+                self.request,
+                f'{obj} has\'t been changed. The data isn\'t correct!'
+            )
 
     def post(self, request, *args, **kwargs):
 
@@ -77,6 +90,7 @@ class ObjListUpdateDeleteMixin(ListView):
         delete_pk = self.request.POST.get('delete_pk')
         if delete_pk:
             self.delete(delete_pk)
+
             return redirect(self.name_url)
 
         # customer card update request

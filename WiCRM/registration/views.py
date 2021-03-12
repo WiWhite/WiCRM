@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.contrib import messages
+
 from .forms import RegisterForm
+
 
 
 class Registration(View):
@@ -18,9 +21,11 @@ class Registration(View):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'Registration success!')
             return redirect('login')
 
         else:
+            messages.error(request, 'Registration failed!')
             return render(
                 request,
                 'registration/registration.html',
