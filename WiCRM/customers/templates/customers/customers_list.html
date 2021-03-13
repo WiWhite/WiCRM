@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title%}
 Customers
@@ -7,6 +8,7 @@ Customers
 {% block content %}
 
 <div class="row">
+    {% if page_obj %}
     {% for customer in page_obj %}
 
     <div class="col-3 mt-4 shadow p-2 mb-5 bg-white rounded">
@@ -49,6 +51,11 @@ Customers
         </div>
     </div>
     {% endfor %}
+    {% else %}
+        <div class="text-center">
+            <img src="{% static 'images/empty.png' %}" class="rounded mx-auto d-block">
+        </div>
+    {% endif %}
 </div>
 
 

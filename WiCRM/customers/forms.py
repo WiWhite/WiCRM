@@ -12,9 +12,9 @@ class CustomerForm(forms.ModelForm):
     phone_number = PhoneNumberField(
         widget=PhoneNumberPrefixWidget(
             attrs={
-                            'class': 'form-control form-control-sm',
-                            'placeholder': 'Phone Number'
-                        }
+                'class': 'form-control form-control-sm',
+                'placeholder': 'Phone Number'
+            }
         )
     )
 
@@ -74,6 +74,13 @@ class CustomerForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, owner=None, *args, **kwargs):
+        super(CustomerForm, self).__init__(*args, **kwargs)
+        self.fields['curator'].queryset = Staff.objects.filter(
+            owner=owner,
+            dismissal=None,
+        )
 
 
 class StaffForm(forms.ModelForm):
@@ -141,6 +148,10 @@ class StaffForm(forms.ModelForm):
             )
         }
 
+    def __init__(self, owner=None, *args, **kwargs):
+        super(StaffForm, self).__init__(*args, **kwargs)
+        self.fields['position'].queryset = Positions.objects.filter(owner=owner)
+
 
 class PositionsForm(forms.ModelForm):
     class Meta:
@@ -187,6 +198,10 @@ class OrderForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, owner=None, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['service'].queryset = Services.objects.filter(owner=owner)
 
 
 class ServicesForm(forms.ModelForm):

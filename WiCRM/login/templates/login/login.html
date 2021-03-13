@@ -25,7 +25,7 @@ Login
                 <div class="col-md-4 col-sm-5 shadow p-2 mb-5 mt-5">
                     <div class="container mt-3">
                         <form action="{% url 'login' %}" method="post"
-                              class="form-control">
+                              class="form-control mt-5">
                             {% csrf_token %}
                             {{ form.as_p }}
                             <div class="d-grid gap-2 mt-2">
@@ -37,7 +37,9 @@ Login
                         </form>
                     </div>
                 </div>
-                <div class="col-md-8 col-sm-5 shadow p-2 mb-5 mt-5">
+                <div class="col-md-2 col-sm-5 mb-5 mt-5">
+                </div>
+                <div class="col-md-4 col-sm-5 shadow p-2 mb-5 mt-5">
                     <img src="{% static 'images/login.gif' %}"/>
                 </div>
             </div>

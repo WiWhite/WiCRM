@@ -60,8 +60,8 @@ class Staff(models.Model):
         verbose_name='Hiring date'
     )
     dismissal = models.DateField(
-        null=True,
         blank=True,
+        null=True,
         verbose_name='Dismissal'
     )
     updated_at = models.DateTimeField(auto_now=True)

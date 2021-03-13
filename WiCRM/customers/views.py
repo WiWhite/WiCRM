@@ -26,7 +26,7 @@ class CustomersList(LoginRequiredMixin, ObjListUpdateDeleteMixin):
     model = Customers
     template_name = 'customers/customers_list.html'
     extra_context = {
-        'form': CustomerForm()
+        'form': CustomerForm
     }
     paginate_by = 12
     name_url = 'customers_list'
@@ -45,13 +45,18 @@ class CreateCustomer(CreateView, LoginRequiredMixin):
     success_url = reverse_lazy('customers_list')
     raise_exception = True
 
+    def get(self, requests, *args, **kwargs):
+        owner = User.objects.get(username=self.request.user)
+        form = self.form_class(owner=owner)
+        return render(requests, self.template_name, {'form': form})
+
     def post(self, request, *args, **kwargs):
 
         owner = User.objects.get(username=self.request.user)
         self.request.POST = self.request.POST.copy()   # a copy of POST is created because this object is immutable
         self.request.POST['owner'] = f'{owner.pk}'  # add customer owner.id
         self.object = owner.pk
-        form = self.form_class(self.request.POST)
+        form = self.form_class(owner.pk, self.request.POST)
         if form.is_valid():
             messages.success(
                 self.request,
@@ -78,14 +83,19 @@ class DetailCustomer(LoginRequiredMixin, CreateView):
     template_name = 'customers/detail_customer.html'
     raise_exception = True
 
-    def get_context_data(self, **kwargs):
+    def get(self, request, *args, **kwargs):
+
+        owner = User.objects.get(username=self.request.user)
 
         self.object = self.get_object()
+        form = self.form_class(owner.pk)
+
         context = super().get_context_data(**kwargs)
         context['orders'] = Orders.objects.filter(customer=self.object.id)
         context['fields'] = Orders._meta.fields
+        context['form'] = form
 
-        return context
+        return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
 
@@ -136,16 +146,18 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('settings_staff')
     raise_exception = True
 
-    def get_context_data(self, **kwargs):
-
+    def get(self, requests, *args, **kwargs):
+        owner = User.objects.get(username=self.request.user)
+        self.object = owner
+        form = self.form_class(owner=owner)
         context = super().get_context_data(**kwargs)
         context['staff'] = Staff.objects.filter(
             owner=self.request.user,
             dismissal=None
         )
         context['fields'] = Staff._meta.fields
-
-        return context
+        context['form'] = form
+        return render(requests, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
 
@@ -165,7 +177,7 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
         update_pk = self.request.POST.get('update_pk')
         if update_pk:
             staff = self.model.objects.get(pk=update_pk)
-            form = self.form_class(self.request.POST, instance=staff)
+            form = self.form_class(owner.pk, self.request.POST, instance=staff)
             if form.is_valid():
                 form.save()
                 messages.success(
@@ -181,10 +193,20 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
                 return redirect('settings_staff')
 
         # staff created
-        form = self.form_class(self.request.POST)
+        form = self.form_class(owner.pk, self.request.POST)
+        self.object = owner
         if form.is_valid():
+            messages.success(
+                self.request,
+                f'{form.cleaned_data["first_name"]} '
+                f'{form.cleaned_data["last_name"]} successfully created!'
+            )
             return self.form_valid(form)
         else:
+            messages.error(
+                self.request,
+                f'{form.errors}'
+            )
             return self.form_invalid(form)
 
 

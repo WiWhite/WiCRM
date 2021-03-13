@@ -71,10 +71,11 @@ class ObjListUpdateDeleteMixin(ListView):
 
     def update(self, update_pk):
 
+        owner = User.objects.get(username=self.request.user)
         obj = self.model.objects.get(pk=update_pk)
         self.request.POST = self.request.POST.copy()  # a copy of POST is created because this object is immutable
         self.request.POST['owner'] = self.request.user  # add customer owner
-        form = self.form_class(self.request.POST, instance=obj)
+        form = self.form_class(owner.pk, self.request.POST, instance=obj)
         if form.is_valid():
             form.save()
             messages.success(self.request, f'{obj} successfully updated!')
