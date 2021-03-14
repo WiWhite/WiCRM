@@ -25,9 +25,9 @@ class CustomersList(LoginRequiredMixin, ObjListUpdateDeleteMixin):
     """
     model = Customers
     template_name = 'customers/customers_list.html'
-    extra_context = {
-        'form': CustomerForm
-    }
+    # extra_context = {
+    #     'form': CustomerForm()
+    # }
     paginate_by = 12
     name_url = 'customers_list'
     form_class = CustomerForm
