@@ -122,6 +122,11 @@ class Orders(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Customer'
     )
+    deadline = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name='Deadline'
+    )
 
     class Meta:
         verbose_name_plural = 'Orders'

@@ -99,7 +99,8 @@
                     <span class="badge bg-success">Done</span>
                 </td>
                 {% endif %}
-                <td>{{ order.created_at }}</td>
+                <td>{{ order.created_at|date:'m/d/Y' }}</td>
+                <td>{{ order.deadline|date:'m/d/Y' }}</td>
                 <td>
                     <button type="button"
                             class="btn btn-sm btn-warning bg-gradient"
@@ -107,7 +108,8 @@
                             data-id="{{ order.id }}"
                             data-service="{{ order.service_id }}"
                             data-price="{{ order.price }}"
-                            data-status="{{ order.status }}">
+                            data-status="{{ order.status }}"
+                            data-deadline="{{ order.deadline|date:'m/d/Y' }}">
                         Update
                     </button>
                 </td>

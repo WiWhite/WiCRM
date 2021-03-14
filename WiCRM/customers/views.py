@@ -25,9 +25,6 @@ class CustomersList(LoginRequiredMixin, ObjListUpdateDeleteMixin):
     """
     model = Customers
     template_name = 'customers/customers_list.html'
-    # extra_context = {
-    #     'form': CustomerForm()
-    # }
     paginate_by = 12
     name_url = 'customers_list'
     form_class = CustomerForm
@@ -100,12 +97,14 @@ class DetailCustomer(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
 
         self.object = self.get_object()
+        owner = User.objects.get(username=self.request.user)
 
         # order delete request
         delete_pk = self.request.POST.get('delete_pk')
         if delete_pk:
             order = Orders.objects.get(pk=delete_pk)
             order.delete()
+            messages.success(self.request, 'Order successfully deleted!')
             return redirect(self.request.path)
 
         # order update request
@@ -114,19 +113,22 @@ class DetailCustomer(LoginRequiredMixin, CreateView):
             order = Orders.objects.get(pk=update_pk)
             self.request.POST = self.request.POST.copy()
             self.request.POST['customer'] = order.customer_id
-            form = OrderForm(self.request.POST, instance=order)
+            self.request.POST['deadline'] = order.deadline
+            form = self.form_class(owner.pk, self.request.POST, instance=order)
             if form.is_valid():
                 form.save()
+                messages.success(self.request, 'Order successfully updated!')
                 return redirect(self.request.path)
 
         self.request.POST = self.request.POST.copy()
         self.request.POST['customer'] = self.object.id
-        form = self.form_class(self.request.POST)
+        form = self.form_class(owner.pk, self.request.POST)
 
         if form.is_valid():
-            form.save()
+            messages.success(self.request, 'Order successfully created!')
             return self.form_valid(form)
         else:
+            messages.error(self.request, f'{form.errors}')
             return self.form_invalid(form)
 
     def get_success_url(self, **kwargs):

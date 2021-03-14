@@ -70,83 +70,95 @@
 {% if paginator %}
 {% if page_obj.has_other_pages %}
 
-<nav aria-label="btn-toolbar">
-    <ul class="pagination justify-content-center mt-3">
+    <nav aria-label="btn-toolbar">
+        <ul class="pagination justify-content-center mt-3">
 
-        {% if not page_obj.has_previous %}
-        <li class="page-item disabled">
-            <a class="page-link " href="#" tabindex="-1">Previous</a>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="btn btn-outline-secondary bg-gradient"
-               href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        </li>
-        {% endif %}
+            {% if not page_obj.has_previous %}
+                <li class="page-item disabled">
+                    <a class="page-link " href="#" tabindex="-1">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="btn btn-outline-secondary bg-gradient"
+                       href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+            {% endif %}
 
-        {% for n in paginator.page_range %}
-        {% if n == page_obj.number %}
-        <li class="page-item active">
-      <span class="btn btn-dark bg-gradient">
-        {{n}}
-        <span class="sr-only"></span>
-      </span>
-        </li>
-        {% else %}
-        <li class="page-item"><a class="btn btn-outline-secondary bg-gradient"
-                                 href="?page={{n}}">{{n}}</a>
-        </li>
-        {% endif %}
-        {% endfor %}
+            {% for n in paginator.page_range %}
+                {% if n == page_obj.number %}
+                    <li class="page-item active">
+                  <span class="btn btn-dark bg-gradient">
+                    {{n}}
+                    <span class="sr-only"></span>
+                  </span>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="btn btn-outline-secondary bg-gradient"
+                                             href="?page={{n}}">{{n}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
 
-        {% if not page_obj.has_next %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Next</a>
-        </li>
-        {% else %}
-        <li class="page-item">
-            <a class="btn btn-outline-secondary bg-gradient"
-               href="?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
+            {% if not page_obj.has_next %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="btn btn-outline-secondary bg-gradient"
+                       href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endif %}
 {% endif %}
 
 {% if request.path == '/customers/' %}
-<script src="{% static 'js/modal_del_customer.js' %}"></script>
-<script src="{% static 'js/modal_update_customer.js' %}"></script>
+    <script src="{% static 'js/modal_del_customer.js' %}"></script>
+    <script src="{% static 'js/modal_update_customer.js' %}"></script>
 {% endif %}
 
 {% if request.path|slice:":27" == '/customers/detail-customer/' %}
-<script src="{% static 'js/modal_del_order.js' %}"></script>
-<script src="{% static 'js/modal_update_order.js' %}"></script>
+    <script src="{% static 'js/modal_del_order.js' %}"></script>
+    <script src="{% static 'js/modal_update_order.js' %}"></script>
+    <script type="text/javascript">
+            $('#datepicker').datepicker({
+             uiLibrary: 'bootstrap',
+             iconsLibrary: 'materialicons'
+         });
+    </script>
+    <script type="text/javascript">
+            $('#datepicker1').datepicker({
+             uiLibrary: 'bootstrap',
+             iconsLibrary: 'materialicons'
+         });
+    </script>
 {% endif %}
 
 {% if request.path == '/customers/settings-staff/' %}
-<script src="{% static 'js/modal_del_staff.js' %}"></script>
-<script src="{% static 'js/modal_update_staff.js' %}"></script>
-<script type="text/javascript">
-        $('#datepicker').datepicker({
-         uiLibrary: 'bootstrap',
-         iconsLibrary: 'materialicons'
-     });
-</script>
-<script type="text/javascript">
-        $('#datepicker1').datepicker({
-         uiLibrary: 'bootstrap',
-         iconsLibrary: 'materialicons'
-     });
-</script>
+    <script src="{% static 'js/modal_del_staff.js' %}"></script>
+    <script src="{% static 'js/modal_update_staff.js' %}"></script>
+    <script type="text/javascript">
+            $('#datepicker').datepicker({
+             uiLibrary: 'bootstrap',
+             iconsLibrary: 'materialicons'
+         });
+    </script>
+    <script type="text/javascript">
+            $('#datepicker1').datepicker({
+             uiLibrary: 'bootstrap',
+             iconsLibrary: 'materialicons'
+         });
+    </script>
 {% endif %}
 
 {% if request.path == '/customers/settings-service/' %}
-<script src="{% static 'js/modal_del_service.js' %}"></script>
+    <script src="{% static 'js/modal_del_service.js' %}"></script>
 {% endif %}
 
 {% if request.path == '/customers/settings-positions/' %}
-<script src="{% static 'js/modal_del_position.js' %}"></script>
+    <script src="{% static 'js/modal_del_position.js' %}"></script>
 {% endif %}
 </body>
 </html>

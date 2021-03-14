@@ -178,7 +178,8 @@ class OrderForm(forms.ModelForm):
             'service',
             'price',
             'status',
-            'customer'
+            'customer',
+            'deadline',
         )
 
         widgets = {
@@ -196,6 +197,14 @@ class OrderForm(forms.ModelForm):
                 attrs={
                     'class': 'form-select form-select-sm'
                 }
+            ),
+            'deadline': forms.DateInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'id': 'datepicker',
+                    'width': '365',
+                    'readonly': 'readonly'
+                },
             ),
         }
 

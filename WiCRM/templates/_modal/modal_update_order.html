@@ -15,7 +15,7 @@
                         <div class="form-group">
                             {% csrf_token %}
                             {% for field in form %}
-                            {% if field.label != 'Customer' %}
+                            {% if field.label != 'Customer' and field.label != 'Deadline' %}
                             {{ field.label }}
                             {{ field }}
                             {% endif %}
