@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title%}
+History
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3 col-sm-1 mt-3">
+        <h2 class="text-center">
+            Create edit order:
+        </h2>
+        <form action="{% url 'history_order' pk %}" method="post"
+              class="form-control shadow p-2 mb-5">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group mt-2">
+                {% if field.label != 'Order' %}
+                {{ field.label }}
+                {{ field }}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="d-grid gap-2 mt-2">
+                <button class="btn btn-outline-success bg-gradient"
+                        type="submit">Create
+                </button>
+            </div>
+        </form>
+    </div>
+    {% if edits %}
+    <div class="col-md-7 col-sm-5 mt-3">
+        <h2>
+            Edits:
+        </h2>
+        <table class="table table-bordered border-dark table-success table-striped table-sm shadow p-2 mb-5">
+            <thead>
+            <tr>
+                {% for field in fields %}
+                {% if field.verbose_name != 'ID' and field.verbose_name != 'Order' %}
+                <th scope="col">{{ field.verbose_name }}</th>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for edit in edits %}
+            <tr>
+                <td>{{ edit.edit }}</td>
+                <td>{{ edit.description }}</td>
+                <td>{{ edit.created_at|date:'m/d/Y' }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

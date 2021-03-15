@@ -229,3 +229,28 @@ class ServicesForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class OrderHistoryForm(forms.ModelForm):
+    class Meta:
+        model = OrderHistory
+        fields = (
+            'edit',
+            'description',
+            'order'
+        )
+
+        widgets = {
+            'edit': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Edit'
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Description'
+                }
+            ),
+        }

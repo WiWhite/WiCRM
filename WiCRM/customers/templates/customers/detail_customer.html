@@ -80,7 +80,9 @@
 
             {% for order in orders %}
             <tr>
-                <td>{{ order.service }}</td>
+                <td>
+                    <a href="{% url 'history_order' order.id %}" class="text-secondary">{{ order.service }}</a>
+                </td>
                 <td>{{ order.price }}</td>
                 {% if order.status == 0 %}
                 <td>

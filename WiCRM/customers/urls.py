@@ -12,4 +12,5 @@ urlpatterns = [
     path('settings-service/', SettingsService.as_view(),
          name='settings_services'),
     path('logout/', Logout.as_view(), name='logout'),
+    path('history-order/<int:pk>', OrderHistory.as_view(), name='history_order')
 ]

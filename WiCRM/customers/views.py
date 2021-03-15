@@ -233,3 +233,48 @@ class SettingsService(LoginRequiredMixin, CreateDelObjectMixin):
     success_url = reverse_lazy('settings_services')
     raise_exception = True
 
+
+class OrderHistory(LoginRequiredMixin, CreateView):
+    model = OrderHistory
+    template_name = 'customers/history_order.html'
+    form_class = OrderHistoryForm
+    raise_exception = True
+
+    def get(self, request, *args, **kwargs):
+
+        self.object = None
+        pk = self.request.path.split('/')[-1]
+
+        context = super().get_context_data(**kwargs)
+        context['edits'] = self.model.objects.filter(
+            order_id=pk
+        )
+        context['fields'] = self.model._meta.fields
+        context['form'] = self.form_class()
+        context['pk'] = pk
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+
+        self.object = None
+        pk = self.request.path.split('/')[-1]
+        order = Orders.objects.get(pk=pk)
+
+        self.request.POST = self.request.POST.copy()
+        self.request.POST['order'] = order.id
+        form = self.form_class(self.request.POST)
+
+        if form.is_valid():
+            messages.success(self.request, 'Edit successfully created!')
+            return self.form_valid(form)
+        else:
+            messages.error(self.request, f'{form.errors}')
+            return self.form_invalid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy(
+            'history_order',
+            args=(self.request.path.split('/')[-1])
+        )
+

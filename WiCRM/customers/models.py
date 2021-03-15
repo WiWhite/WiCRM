@@ -133,3 +133,18 @@ class Orders(models.Model):
         verbose_name = 'Order'
         ordering = ('-created_at',)
 
+
+class OrderHistory(models.Model):
+
+    edit = models.CharField(max_length=100, verbose_name='Edit')
+    description = models.TextField(verbose_name='Description')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Start')
+    order = models.ForeignKey(
+        Orders,
+        on_delete=models.CASCADE,
+        verbose_name='Order'
+    )
+
+    class Meta:
+        ordering = ('created_at',)
+
