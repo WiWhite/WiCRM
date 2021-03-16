@@ -81,20 +81,24 @@
             {% for order in orders %}
             <tr>
                 <td>
-                    <a href="{% url 'history_order' order.id %}" class="text-secondary">{{ order.service }}</a>
+                    <a href="{% url 'history_order' order.id %}" class="text-success">{{ order.service }}</a>
                 </td>
                 <td>{{ order.price }}</td>
                 {% if order.status == 0 %}
                 <td>
-                    <span class="badge bg-danger">Conversation</span>
+                    <span class="badge bg-danger">Briefing</span>
                 </td>
                 {% elif order.status == 1 %}
                 <td>
-                    <span class="badge bg-warning text-dark">Signing</span>
+                    <span class="badge bg-warning text-dark">Moodboard</span>
                 </td>
                 {% elif order.status == 2 %}
                 <td>
-                    <span class="badge bg-info text-dark">Pending</span>
+                    <span class="badge bg-info text-dark">Develop</span>
+                </td>
+                {% elif order.status == 3 %}
+                <td>
+                    <span class="badge bg-primary text-white">Correction</span>
                 </td>
                 {% else %}
                 <td>

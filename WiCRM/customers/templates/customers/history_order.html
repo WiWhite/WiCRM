@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title%}
-History
+History corrections
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@ History
 <div class="row">
     <div class="col-md-3 col-sm-1 mt-3">
         <h2 class="text-center">
-            Create edit order:
+            Create correction:
         </h2>
         <form action="{% url 'history_order' pk %}" method="post"
               class="form-control shadow p-2 mb-5">
@@ -30,10 +30,10 @@ History
             </div>
         </form>
     </div>
-    {% if edits %}
+    {% if corrections %}
     <div class="col-md-7 col-sm-5 mt-3">
         <h2>
-            Edits:
+            Corrections:
         </h2>
         <table class="table table-bordered border-dark table-success table-striped table-sm shadow p-2 mb-5">
             <thead>
@@ -46,11 +46,25 @@ History
             </tr>
             </thead>
             <tbody>
-            {% for edit in edits %}
+            {% for correction in corrections %}
             <tr>
-                <td>{{ edit.edit }}</td>
-                <td>{{ edit.description }}</td>
-                <td>{{ edit.created_at|date:'m/d/Y' }}</td>
+                <td>{{ correction.correction }}</td>
+                <td>{{ correction.description }}</td>
+                <td>{{ correction.created_at|date:'m/d/Y' }}</td>
+                <td>{{ correction.deadline|date:'m/d/Y' }}</td>
+                {% if correction.status == 0 %}
+                <td>
+                    <span class="badge bg-danger">In process</span>
+                </td>
+                {% elif order.status == 1 %}
+                <td>
+                    <span class="badge bg-warning text-dark">Done</span>
+                </td>
+                {% else %}
+                <td>
+                    <span class="badge bg-success">Done</span>
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
             </tbody>

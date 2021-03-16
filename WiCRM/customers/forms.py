@@ -235,16 +235,18 @@ class OrderHistoryForm(forms.ModelForm):
     class Meta:
         model = OrderHistory
         fields = (
-            'edit',
+            'correction',
+            'status',
+            'deadline',
             'description',
-            'order'
+            'order',
         )
 
         widgets = {
-            'edit': forms.TextInput(
+            'correction': forms.TextInput(
                 attrs={
                     'class': 'form-control form-control-sm',
-                    'placeholder': 'Edit'
+                    'placeholder': 'Correction'
                 }
             ),
             'description': forms.Textarea(
@@ -252,5 +254,18 @@ class OrderHistoryForm(forms.ModelForm):
                     'class': 'form-control form-control-sm',
                     'placeholder': 'Description'
                 }
+            ),
+            'status': forms.Select(
+                attrs={
+                    'class': 'form-select form-select-sm'
+                }
+            ),
+            'deadline': forms.DateInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'id': 'datepicker',
+                    'width': '260',
+                    'readonly': 'readonly'
+                },
             ),
         }

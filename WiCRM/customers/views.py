@@ -246,7 +246,7 @@ class OrderHistory(LoginRequiredMixin, CreateView):
         pk = self.request.path.split('/')[-1]
 
         context = super().get_context_data(**kwargs)
-        context['edits'] = self.model.objects.filter(
+        context['corrections'] = self.model.objects.filter(
             order_id=pk
         )
         context['fields'] = self.model._meta.fields

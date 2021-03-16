@@ -119,7 +119,7 @@
     <script src="{% static 'js/modal_update_customer.js' %}"></script>
 {% endif %}
 
-{% if request.path|slice:":27" == '/customers/detail-customer/' %}
+{% if request.path|slice:":27" == '/customers/detail-customer/' or request.path|slice:":25" == '/customers/history-order/' %}
     <script src="{% static 'js/modal_del_order.js' %}"></script>
     <script src="{% static 'js/modal_update_order.js' %}"></script>
     <script type="text/javascript">
