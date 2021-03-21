@@ -1,0 +1,42 @@
+<div class="modal fade" tabindex="-1" id="update" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Update:</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="{% url 'history_order' pk %}"
+                          method="post"
+                          class="form-control">
+                        <div class="form-group">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form-group mt-2">
+                                {% if field.label != 'Order' and field.label != 'Deadline' %}
+                                {{ field.label }}
+                                {{ field }}
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            <div class="modal-footer">
+                                <input type="hidden" class="form-control"
+                                       name="update_pk">
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel
+                                </button>
+                                <button type="submit" class="btn btn-warning">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -66,6 +66,10 @@
     {% if request.path == '/customers/settings-positions/' %}
     {% include '_modal/modal_del_position.html' %}
     {% endif %}
+
+    {% if request.path|slice:":25" == '/customers/history-order/' %}
+    {% include '_modal/modal_update_correction.html' %}
+    {% endif %}
 </div>
 {% if paginator %}
 {% if page_obj.has_other_pages %}
@@ -153,6 +157,10 @@
 
 {% if request.path == '/customers/settings-positions/' %}
     <script src="{% static 'js/modal_del_position.js' %}"></script>
+{% endif %}
+
+{% if request.path|slice:":25" == '/customers/history-order/' %}
+    <script src="{% static 'js/modal_update_correction.js' %}"></script>
 {% endif %}
 </body>
 </html>

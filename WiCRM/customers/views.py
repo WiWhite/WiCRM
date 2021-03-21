@@ -52,7 +52,7 @@ class CreateCustomer(CreateView, LoginRequiredMixin):
         owner = User.objects.get(username=self.request.user)
         self.request.POST = self.request.POST.copy()   # a copy of POST is created because this object is immutable
         self.request.POST['owner'] = f'{owner.pk}'  # add customer owner.id
-        self.object = owner.pk
+        self.object = None
         form = self.form_class(owner.pk, self.request.POST)
         if form.is_valid():
             messages.success(
@@ -264,6 +264,25 @@ class OrderHistory(LoginRequiredMixin, CreateView):
         self.request.POST = self.request.POST.copy()
         self.request.POST['order'] = order.id
         form = self.form_class(self.request.POST)
+
+        update_pk = self.request.POST.get('update_pk')
+        if update_pk:
+            correction = self.model.objects.get(pk=update_pk)
+            self.request.POST = self.request.POST.copy()
+            self.request.POST['deadline'] = correction.deadline
+            form = self.form_class(self.request.POST, instance=correction)
+            if form.is_valid():
+                messages.success(
+                    self.request,
+                    f'{correction} successfully updated!'
+                )
+                return self.form_valid(form)
+            else:
+                messages.error(
+                    self.request,
+                    f'{correction} has\'t been changed. The data isn\'t correct!'
+                )
+                return self.form_invalid(form)
 
         if form.is_valid():
             messages.success(self.request, 'Edit successfully created!')

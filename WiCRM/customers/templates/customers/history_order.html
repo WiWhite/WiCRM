@@ -43,6 +43,7 @@ History corrections
                 <th scope="col">{{ field.verbose_name }}</th>
                 {% endif %}
                 {% endfor %}
+                <th scope="col">Update</th>
             </tr>
             </thead>
             <tbody>
@@ -56,15 +57,26 @@ History corrections
                 <td>
                     <span class="badge bg-danger">In process</span>
                 </td>
-                {% elif order.status == 1 %}
+                {% elif correction.status == 1 %}
                 <td>
                     <span class="badge bg-warning text-dark">Done</span>
                 </td>
                 {% else %}
                 <td>
-                    <span class="badge bg-success">Done</span>
+                    <span class="badge bg-success">Approved</span>
                 </td>
                 {% endif %}
+                <td scope="col">
+                                <button class="btn btn-sm btn-warning"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#update"
+                                        data-id="{{ correction.id }}"
+                                        data-correction="{{ correction.correction }}"
+                                        data-desc="{{ correction.description }}"
+                                        data-status="{{ correction.status }}">
+                                    Update
+                                </button>
+                            </td>
             </tr>
             {% endfor %}
             </tbody>
