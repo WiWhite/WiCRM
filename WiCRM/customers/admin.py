@@ -6,5 +6,6 @@ admin.site.register(Staff)
 admin.site.register(Services)
 admin.site.register(Positions)
 admin.site.register(Orders)
+admin.site.register(OrderHistory)
 
 

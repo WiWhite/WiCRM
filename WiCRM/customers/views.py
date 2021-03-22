@@ -116,9 +116,14 @@ class DetailCustomer(LoginRequiredMixin, CreateView):
             self.request.POST['deadline'] = order.deadline
             form = self.form_class(owner.pk, self.request.POST, instance=order)
             if form.is_valid():
-                form.save()
                 messages.success(self.request, 'Order successfully updated!')
-                return redirect(self.request.path)
+                return self.form_valid(form)
+            else:
+                messages.error(
+                    self.request,
+                    f'{order} has\'t been changed. The data isn\'t correct!'
+                )
+                return self.form_invalid(form)
 
         self.request.POST = self.request.POST.copy()
         self.request.POST['customer'] = self.object.id
@@ -285,13 +290,16 @@ class OrderHistory(LoginRequiredMixin, CreateView):
                 return self.form_invalid(form)
 
         if form.is_valid():
-            messages.success(self.request, 'Edit successfully created!')
+            messages.success(
+                self.request,
+                f'{form.cleaned_data["correction"]} successfully created!'
+            )
             return self.form_valid(form)
         else:
             messages.error(self.request, f'{form.errors}')
             return self.form_invalid(form)
 
-    def get_success_url(self, **kwargs):
+    def get_success_url(self):
         return reverse_lazy(
             'history_order',
             args=(self.request.path.split('/')[-1])

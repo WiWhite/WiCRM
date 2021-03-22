@@ -9,6 +9,8 @@ from .forms import LoginForm
 class Login(View):
 
     def get(self, request):
+        if self.request.user.is_authenticated:
+            return redirect('customers_list')
         form = LoginForm()
         return render(request, 'login/login.html', {'form': form})
 

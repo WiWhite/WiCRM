@@ -4,6 +4,19 @@ from django import forms
 
 
 class RegisterForm(UserCreationForm):
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your first name'
+        }),
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Your last name'
+        }),
+    )
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -35,8 +48,10 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
+            'first_name',
+            'last_name',
             'username',
             'email',
             'password1',
-            'password2'
+            'password2',
         )

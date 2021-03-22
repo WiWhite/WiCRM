@@ -9,6 +9,9 @@ from .forms import RegisterForm
 class Registration(View):
 
     def get(self, request):
+
+        if self.request.user.is_authenticated:
+            return redirect('customers_list')
         form = RegisterForm()
         return render(
             request,

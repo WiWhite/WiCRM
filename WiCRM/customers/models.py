@@ -162,6 +162,8 @@ class OrderHistory(models.Model):
     )
 
     class Meta:
+        verbose_name_plural = 'Orders histories'
+        verbose_name = 'Order history'
         ordering = ('created_at',)
 
     def __str__(self):
