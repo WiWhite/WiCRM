@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
+from referral.models import Referrals
+from .utils import generate_ref_code
 
 
 class Customers(models.Model):
@@ -66,9 +68,16 @@ class Staff(models.Model):
     )
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    referral = models.OneToOneField(Referrals, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+    #
+    # def save(self, *args, **kwargs):
+    #     ref = Referrals(referral_code=generate_ref_code())
+    #     ref.save()
+    #     self.referral_id = ref.id
+    #     super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Staff'

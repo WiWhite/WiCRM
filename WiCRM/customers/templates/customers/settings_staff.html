@@ -65,7 +65,7 @@ Settings
                         <tr>
                             <th scope="col">Person</th>
                             {% for field in fields %}
-                                {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' %}
+                                {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' and field.verbose_name != 'referral' %}
                                     <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}

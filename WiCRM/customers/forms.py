@@ -104,7 +104,7 @@ class StaffForm(forms.ModelForm):
             'position',
             'sex',
             'dismissal',
-            'owner'
+            'owner',
         )
 
         widgets = {

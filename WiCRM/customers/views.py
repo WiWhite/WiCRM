@@ -169,6 +169,7 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
 
         owner = User.objects.get(username=self.request.user)
+        self.object = owner
         self.request.POST = self.request.POST.copy()
         self.request.POST['owner'] = f'{owner.pk}'
 
@@ -201,8 +202,8 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
 
         # staff created
         form = self.form_class(owner.pk, self.request.POST)
-        self.object = owner
         if form.is_valid():
+            print(form.cleaned_data)
             messages.success(
                 self.request,
                 f'{form.cleaned_data["first_name"]} '
