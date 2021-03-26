@@ -69,6 +69,7 @@
 
     {% if request.path|slice:":25" == '/customers/history-order/' %}
     {% include '_modal/modal_update_correction.html' %}
+    {% include '_modal/modal_del_correction.html' %}
     {% endif %}
 </div>
 {% if paginator %}
@@ -161,6 +162,7 @@
 
 {% if request.path|slice:":25" == '/customers/history-order/' %}
     <script src="{% static 'js/modal_update_correction.js' %}"></script>
+    <script src="{% static 'js/modal_del_correction.js' %}"></script>
 {% endif %}
 </body>
 </html>

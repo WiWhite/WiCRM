@@ -264,16 +264,21 @@ class OrderHistory(LoginRequiredMixin, CreateView):
 
         self.object = None
         pk = self.request.path.split('/')[-1]
-        order = Orders.objects.get(pk=pk)
 
         self.request.POST = self.request.POST.copy()
-        self.request.POST['order'] = order.id
+        self.request.POST['order'] = pk
         form = self.form_class(self.request.POST)
+
+        delete_pk = self.request.POST.get('delete_pk')
+        if delete_pk:
+            correction = self.model.objects.get(pk=delete_pk)
+            correction.delete()
+            messages.success(self.request, f'{correction} successfully deleted!')
+            return redirect(self.request.path)
 
         update_pk = self.request.POST.get('update_pk')
         if update_pk:
             correction = self.model.objects.get(pk=update_pk)
-            self.request.POST = self.request.POST.copy()
             self.request.POST['deadline'] = correction.deadline
             form = self.form_class(self.request.POST, instance=correction)
             if form.is_valid():

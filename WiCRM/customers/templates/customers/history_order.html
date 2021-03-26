@@ -44,6 +44,7 @@ History corrections
                 {% endif %}
                 {% endfor %}
                 <th scope="col">Update</th>
+                <th scope="col">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -67,16 +68,24 @@ History corrections
                 </td>
                 {% endif %}
                 <td scope="col">
-                                <button class="btn btn-sm btn-warning"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#update"
-                                        data-id="{{ correction.id }}"
-                                        data-correction="{{ correction.correction }}"
-                                        data-desc="{{ correction.description }}"
-                                        data-status="{{ correction.status }}">
-                                    Update
-                                </button>
-                            </td>
+                    <button class="btn btn-sm btn-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#update"
+                            data-id="{{ correction.id }}"
+                            data-correction="{{ correction.correction }}"
+                            data-desc="{{ correction.description }}"
+                            data-status="{{ correction.status }}">
+                        Update
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-sm btn-danger bg-gradient"
+                            data-bs-toggle="modal" data-bs-target="#delete"
+                            data-id="{{ correction.id }}">
+                        Delete
+                    </button>
+                </td>
             </tr>
             {% endfor %}
             </tbody>
