@@ -72,12 +72,15 @@ class Staff(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-    #
-    # def save(self, *args, **kwargs):
-    #     ref = Referrals(referral_code=generate_ref_code())
-    #     ref.save()
-    #     self.referral_id = ref.id
-    #     super().save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+
+        if not self.referral_id:
+            ref = Referrals(referral_code=generate_ref_code())
+            ref.save()
+            self.referral_id = ref.id
+            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Staff'
