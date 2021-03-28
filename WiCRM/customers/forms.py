@@ -105,6 +105,7 @@ class StaffForm(forms.ModelForm):
             'sex',
             'dismissal',
             'owner',
+            'email',
         )
 
         widgets = {
@@ -145,7 +146,13 @@ class StaffForm(forms.ModelForm):
                     'width': '385',
                     'readonly': 'readonly'
                 },
-            )
+            ),
+            'email': forms.EmailInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'E-mail'
+                }
+            ),
         }
 
     def __init__(self, owner=None, *args, **kwargs):

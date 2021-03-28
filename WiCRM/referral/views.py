@@ -16,7 +16,7 @@ class RegistrationReferral(View):
             if referral.used is False:
                 staff = Staff.objects.get(referral_id=referral.id)
                 staff_form = StaffForm(instance=staff)
-                registration_form = RegisterForm()
+                registration_form = RegisterForm({'email': staff.email})
                 context = {
                     'staff_form': staff_form,
                     'registration_form': registration_form,

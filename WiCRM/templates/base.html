@@ -152,6 +152,15 @@
     </script>
 {% endif %}
 
+{% if request.path|slice:':23' == '/registration-referral=' %}
+    <script type="text/javascript">
+            $('#datepicker').datepicker({
+             uiLibrary: 'bootstrap',
+             iconsLibrary: 'materialicons'
+         });
+    </script>
+{% endif %}
+
 {% if request.path == '/customers/settings-service/' %}
     <script src="{% static 'js/modal_del_service.js' %}"></script>
 {% endif %}

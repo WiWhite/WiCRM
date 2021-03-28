@@ -23,7 +23,7 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path('', RedirectView.as_view(url='registration/', permanent=False)),
     path('registration/', include('registration.urls')),
-    path('registration_referral=<str:ref>/', include('referral.urls')),
+    path('registration-referral=<str:ref>/', include('referral.urls')),
     path('admin/', admin.site.urls),
     path('customers/', include('customers.urls')),
     path('login/', include('login.urls')),

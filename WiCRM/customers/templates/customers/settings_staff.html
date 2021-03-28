@@ -65,7 +65,7 @@ Settings
                         <tr>
                             <th scope="col">Person</th>
                             {% for field in fields %}
-                                {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' and field.verbose_name != 'referral' %}
+                                {% if field.verbose_name != 'owner' and field.verbose_name != 'updated at' and field.verbose_name != 'ID' and field.verbose_name != 'First name' and field.verbose_name != 'Last name' and field.verbose_name != 'Sex' and field.verbose_name != 'referral' and field.verbose_name != 'Dismissal' %}
                                     <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}
@@ -82,11 +82,7 @@ Settings
                             <td>{{ person.birthdate|date:'m/d/Y' }}</td>
                             <td>{{ person.position }}</td>
                             <td>{{ person.hiring_date|date:'m/d/Y' }}</td>
-                            {% if person.dismissal is None %}
-                            <td>-</td>
-                            {% else %}
-                            <td>{{ person.dismissal }}</td>
-                            {% endif %}
+                            <td>{{ person.email }}</td>
                             <td scope="col">
                                 <button class="btn btn-sm btn-warning"
                                         data-bs-toggle="modal"
@@ -99,7 +95,7 @@ Settings
                                         data-birthdate="{{ person.birthdate|date:'m/d/Y' }}"
                                         data-position="{{ person.position_id }}"
                                         data-sex="{{ person.sex }}"
-                                        data-dismissal="{{ person.dismissal }}">
+                                        data-email="{{ person.email }}">
                                     Update
                                 </button>
                             </td>

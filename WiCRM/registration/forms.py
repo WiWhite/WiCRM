@@ -7,31 +7,31 @@ class RegisterForm(UserCreationForm):
 
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'Your first name'
         }),
     )
     last_name = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'Your last name'
         }),
     )
     username = forms.CharField(
         widget=forms.TextInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'Your username'
         }),
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'example@domain.ua'
         }),
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'Password'
         }),
         label='Password'
@@ -39,7 +39,7 @@ class RegisterForm(UserCreationForm):
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={
-            'class': 'form-control',
+            'class': 'form-control form-control-sm',
             'placeholder': 'Confirm password'
         }),
         label='Password confirmation'

@@ -7,16 +7,16 @@ Invite referral registration
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-sm-5 mt-3">
+        <div class="col-md-3 col-sm-8 mt-3">
             <h3>
                 Registration:
             </h3>
-            <form action="{% url 'settings_staff' %}" method="post"
+            <form action="{% url 'registration_referral' request.path|slice:'23:-2' %}" method="post"
                   class="form-control shadow p-2 mb-5">
                 {% csrf_token %}
-                {% for field in staff_form %}
                 <div class="form-group mt-2">
-                    {% if field.label != 'Owner' and field.label != 'Dismissal' and field.label != 'Position' %}
+                    {% for field in staff_form %}
+                    {% if field.label != 'Owner' and field.label != 'Dismissal' and field.label != 'Position' and field.label != 'E-mail' %}
                     {% if field.label == 'Phone number' %}
                     {{ field.label }}
                     <div class="input-group">
@@ -27,8 +27,15 @@ Invite referral registration
                     {{ field }}
                     {% endif %}
                     {% endif %}
+                    {% endfor %}
+                    {% for field in registration_form%}
+                    {% if field.label != 'First name' and field.label != 'Last name' %}
+                    {{ field.label }}
+                    {{ field }}
+                    {% endif %}
+                    {% endfor %}
                 </div>
-                {% endfor %}
+
                 <div class="d-grid gap-2 mt-2">
                     <button class="btn btn-outline-success"
                             type="submit">

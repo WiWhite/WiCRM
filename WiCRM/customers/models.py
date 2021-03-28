@@ -11,7 +11,7 @@ class Customers(models.Model):
     last_name = models.CharField(max_length=30)
     company = models.CharField(max_length=50)
     phone_number = PhoneNumberField(blank=True)
-    email = models.EmailField(max_length=30)
+    email = models.EmailField(max_length=40)
     instagram = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,6 +69,7 @@ class Staff(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     referral = models.OneToOneField(Referrals, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=40, verbose_name='E-mail')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
