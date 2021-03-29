@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.db import models
+from django.contrib import messages
 
 from .models import Referrals
 from customers.forms import StaffForm
@@ -57,7 +58,22 @@ class RegistrationReferral(View):
             registration_form.save()
             referral.used = True
             referral.save()
+            messages.success(request, 'Registration success!')
             return redirect('login')
-        # pass
+        else:
+            messages.error(
+                request,
+                f'Registration failed! {staff_form.errors}\n'
+                f'{registration_form.errors}'
+            )
+            context = {
+                'staff_form': staff_form,
+                'registration_form': registration_form,
+            }
+            return render(
+                request,
+                'referral/registration_referral.html',
+                context
+            )
 
 

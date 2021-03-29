@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Invite referral registration
 {% endblock %}
 
 {% block content %}
+{% if registration_form %}
 <div class="container">
     <div class="row">
         <div class="col-md-3 col-sm-8 mt-3">
-            {% if registration_form %}
             <h3>
                 Registration:
             </h3>
@@ -44,8 +45,13 @@ Invite referral registration
                     </button>
                 </div>
             </form>
-            {% endif %}
         </div>
     </div>
 </div>
+{% else %}
+    <div class="text-center">
+        <img src="{% static 'images/not_found.png' %}" class="rounded mx-auto d-block">
+        <h2 class="text-secondary"> Your invite is used or not found!</h2>
+    </div>
+{% endif %}
 {% endblock %}
