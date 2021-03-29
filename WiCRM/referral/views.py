@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.db import models
 
@@ -34,3 +34,30 @@ class RegistrationReferral(View):
                 )
         except models.ObjectDoesNotExist:
             return render(request, 'referral/registration_referral.html', {})
+
+    def post(self, request, ref):
+        referral = Referrals.objects.get(referral_code=ref)
+        staff = Staff.objects.get(referral_id=referral.id)
+        staff_data = {
+            'first_name': self.request.POST.get('first_name'),
+            'last_name': self.request.POST.get('last_name'),
+            'email': self.request.POST.get('email'),
+            'phone_number_0': self.request.POST.get('phone_number_0'),
+            'phone_number_1': self.request.POST.get('phone_number_1'),
+            'birthdate': self.request.POST.get('birthdate'),
+            'position': staff.position,
+            'sex': self.request.POST.get('sex'),
+            'dismissal': staff.dismissal,
+            'owner': staff.owner,
+        }
+        staff_form = StaffForm(staff.owner_id, staff_data, instance=staff)
+        registration_form = RegisterForm(self.request.POST)
+        if all([staff_form.is_valid(), registration_form.is_valid()]):
+            staff_form.save()
+            registration_form.save()
+            referral.used = True
+            referral.save()
+            return redirect('login')
+        # pass
+
+

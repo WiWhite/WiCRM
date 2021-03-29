@@ -99,13 +99,13 @@ class StaffForm(forms.ModelForm):
         fields = (
             'first_name',
             'last_name',
+            'email',
             'phone_number',
             'birthdate',
             'position',
             'sex',
             'dismissal',
             'owner',
-            'email',
         )
 
         widgets = {
