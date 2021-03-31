@@ -25,6 +25,7 @@ urlpatterns = [
     path('registration/', include('registration.urls')),
     path('registration-referral=<str:ref>/', include('referral.urls')),
     path('admin/', admin.site.urls),
+    path('settings/', include('settings.urls')),
     path('customers/', include('customers.urls')),
     path('login/', include('login.urls')),
 ]

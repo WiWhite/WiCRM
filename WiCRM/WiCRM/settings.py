@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'settings.apps.SettingsConfig',
     'customers.apps.CustomersConfig',
     'registration.apps.RegistrationConfig',
     'login.apps.LoginConfig',

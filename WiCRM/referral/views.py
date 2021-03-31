@@ -4,9 +4,9 @@ from django.db import models
 from django.contrib import messages
 
 from .models import Referrals
-from customers.forms import StaffForm
+from settings.forms import StaffForm
 from registration.forms import RegisterForm
-from customers.models import Staff
+from settings.models import Staff
 
 
 class RegistrationReferral(View):

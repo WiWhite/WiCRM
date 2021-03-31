@@ -54,16 +54,16 @@
     {% include '_modal/modal_update_order.html' %}
     {% endif %}
 
-    {% if request.path == '/customers/settings-staff/' %}
+    {% if request.path == '/settings/staff/' %}
     {% include '_modal/modal_del_staff.html' %}
     {% include '_modal/modal_update_staff.html' %}
     {% endif %}
 
-    {% if request.path == '/customers/settings-service/' %}
+    {% if request.path == '/settings/service/' %}
     {% include '_modal/modal_del_service.html' %}
     {% endif %}
 
-    {% if request.path == '/customers/settings-positions/' %}
+    {% if request.path == '/settings/positions/' %}
     {% include '_modal/modal_del_position.html' %}
     {% endif %}
 
@@ -135,7 +135,7 @@
     </script>
 {% endif %}
 
-{% if request.path == '/customers/settings-staff/' %}
+{% if request.path == '/settings/staff/' %}
     <script src="{% static 'js/modal_del_staff.js' %}"></script>
     <script src="{% static 'js/modal_update_staff.js' %}"></script>
     <script type="text/javascript">
@@ -161,11 +161,11 @@
     </script>
 {% endif %}
 
-{% if request.path == '/customers/settings-service/' %}
+{% if request.path == '/settings/service/' %}
     <script src="{% static 'js/modal_del_service.js' %}"></script>
 {% endif %}
 
-{% if request.path == '/customers/settings-positions/' %}
+{% if request.path == '/settings/positions/' %}
     <script src="{% static 'js/modal_del_position.js' %}"></script>
 {% endif %}
 
