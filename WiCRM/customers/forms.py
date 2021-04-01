@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django import forms
 from .models import *
 from settings.models import Services, Staff

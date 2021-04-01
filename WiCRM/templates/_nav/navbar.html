@@ -35,5 +35,9 @@
             <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
         {% endif %}
     </div>
-
+    {% if request.path|slice:':22' == '/registration-referral' %}
+        <a class="nav-link text-secondary" aria-current="page"
+           href="{% url 'registration' %}">Registration</a>
+        <a class="nav-link text-secondary" href="{% url 'login' %}">Login</a>
+    {% endif %}
 </nav>

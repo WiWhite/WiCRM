@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -15,7 +15,7 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
     """
     model = Staff
     form_class = StaffForm
-    template_name = 'customers/settings_staff.html'
+    template_name = 'settings/settings_staff.html'
     success_url = reverse_lazy('settings_staff')
     raise_exception = True
 
@@ -90,7 +90,7 @@ class SettingsPositions(LoginRequiredMixin, CreateDelObjectMixin):
     """
     model = Positions
     form_class = PositionsForm
-    template_name = 'customers/settings_positions.html'
+    template_name = 'settings/settings_positions.html'
     success_url = reverse_lazy('settings_positions')
     raise_exception = True
 
@@ -101,6 +101,70 @@ class SettingsService(LoginRequiredMixin, CreateDelObjectMixin):
     """
     model = Services
     form_class = ServicesForm
-    template_name = 'customers/settings_services.html'
+    template_name = 'settings/settings_services.html'
     success_url = reverse_lazy('settings_services')
     raise_exception = True
+
+
+class SettingsEmailService(View):
+
+    def get(self, request):
+
+        try:
+            obj = EmailService.objects.get(owner=request.user)
+            form = EmailServiceForm(instance=obj)
+            context = {
+                'form': form,
+                'obj': obj,
+            }
+            return render(
+                request,
+                'settings/settings_email_service.html',
+                context
+            )
+
+        except models.ObjectDoesNotExist:
+            form = EmailServiceForm()
+            context = {
+                'form': form,
+            }
+            return render(
+                request,
+                'settings/settings_email_service.html',
+                context
+            )
+
+    def post(self, request):
+
+        data = self.request.POST.copy()
+        data['owner'] = self.request.user
+
+        if self.request.POST.get('update'):
+            obj = EmailService.objects.get(owner=request.user)
+            form = EmailServiceForm(data, instance=obj)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Successfully updated!')
+                return redirect(self.request.path)
+
+            else:
+                messages.error(request, f'{form.errors}')
+                return render(
+                    request,
+                    'settings/settings_email_service.html',
+                    {'form': form}
+                )
+
+        form = EmailServiceForm(data)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully created!')
+            return redirect(self.request.path)
+
+        else:
+            messages.error(request, f'{form.errors}')
+            return render(
+                request,
+                'settings/settings_email_service.html',
+                {'form': form}
+            )

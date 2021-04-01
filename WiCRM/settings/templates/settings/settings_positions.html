@@ -13,12 +13,16 @@ Settings
                    href="{% url 'settings_staff' %}">Staff</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-secondary" aria-current="true"
+                <a class="nav-link active" aria-current="true"
                    href="{% url 'settings_positions' %}">Position</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="true"
+                <a class="nav-link text-secondary" aria-current="true"
                    href="{% url 'settings_services' %}">Service</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'settings_email_service' %}">Email Service</a>
             </li>
         </ul>
     </div>
@@ -27,9 +31,9 @@ Settings
             <div class="row">
                 <div class="col-md-3 col-sm-5 mt-3">
                     <h3>
-                        Create service:
+                        Create position:
                     </h3>
-                    <form action="{% url 'settings_services' %}" method="post"
+                    <form action="{% url 'settings_positions' %}" method="post"
                           class="form-control shadow p-2 mb-5">
                         {% csrf_token %}
                         {% for field in form %}
@@ -51,13 +55,13 @@ Settings
                 {% if objects %}
                 <div class="col-md-5 col-sm-5 mt-3">
                     <h3>
-                        Services:
+                        Positions:
                     </h3>
                     <table class="table table-bordered border-dark table-success table-striped table-sm shadow p-2 mb-5">
                         <thead>
                         <tr>
                             {% for field in fields %}
-                                {% if field.verbose_name == 'Service name' %}
+                                {% if field.verbose_name == 'Position name' %}
                                     <th scope="col">{{ field.verbose_name }}</th>
                                 {% endif %}
                             {% endfor %}
@@ -65,20 +69,22 @@ Settings
                         </tr>
                         </thead>
                         <tbody>
-                                {% for service in objects %}
+
+                                {% for position in objects %}
                                 <tr>
-                                    <td>{{ service.service_name }}</td>
+                                    <td>{{ position.position_name }}</td>
                                     <td>
                                         <button class="btn btn-sm btn-danger"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#delete"
-                                                data-id="{{ service.id }}"
-                                                data-service="{{ service }}">
+                                                data-id="{{ position.id }}"
+                                                data-service="{{ position }}">
                                             Delete
                                         </button>
                                     </td>
                                 </tr>
                                 {% endfor %}
+
                         </tbody>
                     </table>
                 </div>

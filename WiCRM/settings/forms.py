@@ -116,3 +116,58 @@ class ServicesForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class EmailServiceForm(forms.ModelForm):
+    class Meta:
+        model = EmailService
+        fields = (
+            'email_host',
+            'email_port',
+            'email_login',
+            'email_password',
+            'email_use_ssl',
+            'email_use_tls',
+            'owner',
+        )
+
+        widgets = {
+            'email_host': forms.TextInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Hostname or ip address'
+                }
+            ),
+            'email_port': forms.NumberInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Port'
+                }
+            ),
+            'email_login': forms.EmailInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Login'
+                }
+            ),
+            'email_password': forms.PasswordInput(
+                attrs={
+                    'class': 'form-control form-control-sm',
+                    'placeholder': 'Password'
+                }
+            ),
+            'email_use_ssl': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'ssl',
+                }
+            ),
+            'email_use_tls': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'tls',
+                }
+            ),
+        }

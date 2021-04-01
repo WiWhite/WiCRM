@@ -7,4 +7,6 @@ urlpatterns = [
          name='settings_positions'),
     path('service/', SettingsService.as_view(),
          name='settings_services'),
+    path('email-service/', SettingsEmailService.as_view(),
+         name='settings_email_service'),
 ]

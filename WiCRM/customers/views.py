@@ -31,7 +31,7 @@ class CustomersList(LoginRequiredMixin, ObjListUpdateDeleteMixin):
     raise_exception = True
 
 
-class CreateCustomer(CreateView, LoginRequiredMixin):
+class CreateCustomer(LoginRequiredMixin, CreateView):
     """
     View is responsible for displaying the client creation form and processing
     the POST request.

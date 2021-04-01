@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Settings
+{% endblock %}
+
+{% block content %}
+<div class="card shadow p-2 mb-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'settings_staff' %}">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'settings_positions' %}">Position</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-secondary" aria-current="true"
+                   href="{% url 'settings_services' %}">Service</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true"
+                   href="#">Email Server</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-4 col-sm-5 mt-3">
+                <h3>
+                    Email Service Configurations:
+                </h3>
+                {% if obj %}
+                    <form action="{% url 'settings_email_service' %}" method="post"
+                          class="form-control shadow p-2 mb-5">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group mt-2">
+                            {% if field.label != 'Owner' %}
+                            {% if field.label == 'SSL' or field.label == 'TLS' %}
+                            <div class="form-check form-switch">
+                                {{ field.label }}
+                                {{ field }}
+                            </div>
+                            {% else %}
+                            {{ field.label }}
+                            {{ field }}
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 mt-2">
+                            <input name="update" type="hidden" value="True">
+                            <button class="btn btn-outline-success"
+                                    type="submit">
+                                Update
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    <form action="{% url 'settings_email_service' %}" method="post"
+                          class="form-control shadow p-2 mb-5">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group mt-2">
+                            {% if field.label != 'Owner' %}
+                            {% if field.label == 'SSL' or field.label == 'TLS' %}
+                            <div class="form-check form-switch">
+                                {{ field.label }}
+                                {{ field }}
+                            </div>
+                            {% else %}
+                            {{ field.label }}
+                            {{ field }}
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="d-grid gap-2 mt-2">
+                            <button class="btn btn-outline-success"
+                                    type="submit">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
