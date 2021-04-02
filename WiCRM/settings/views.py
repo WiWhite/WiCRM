@@ -3,10 +3,12 @@ from django.views.generic import CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.conf import settings
 
 from .models import *
 from .forms import *
 from .mixins import CreateDelObjectMixin
+from referral.models import Referrals
 
 
 class SettingsStaff(LoginRequiredMixin, CreateView):
@@ -69,7 +71,6 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
         # staff created
         form = self.form_class(owner.pk, self.request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             messages.success(
                 self.request,
                 f'{form.cleaned_data["first_name"]} '

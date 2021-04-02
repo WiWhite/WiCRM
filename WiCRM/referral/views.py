@@ -63,8 +63,7 @@ class RegistrationReferral(View):
         else:
             messages.error(
                 request,
-                f'Registration failed! {staff_form.errors}\n'
-                f'{registration_form.errors}'
+                'Registration failed!'
             )
             context = {
                 'staff_form': staff_form,

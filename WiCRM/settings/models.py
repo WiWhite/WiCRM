@@ -89,6 +89,6 @@ class EmailService(models.Model):
     email_port = models.IntegerField(verbose_name='E-mail port')
     email_login = models.EmailField(max_length=40, verbose_name='E-mail')
     email_password = models.CharField(max_length=20, verbose_name='E-mail password')
-    email_use_ssl = models.BooleanField(default=False, verbose_name='SSL')
-    email_use_tls = models.BooleanField(default=False, verbose_name='TLS')
+    email_use_ssl = models.BooleanField(default=False, verbose_name='Connection type - secured SSL')
+    email_use_tls = models.BooleanField(default=False, verbose_name='Connection type - secured TLS')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
