@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.conf import settings
+from django.core.mail import send_mail, get_connection
 
 from .models import *
 from .forms import *
@@ -76,7 +77,31 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
                 f'{form.cleaned_data["first_name"]} '
                 f'{form.cleaned_data["last_name"]} successfully created!'
             )
-            return self.form_valid(form)
+            form.save()
+
+            # the process of sending the invitation will be rewritten
+            staff = Staff.objects.get(email=form.cleaned_data['email'])
+            service = EmailService.objects.get(pk=owner.pk)
+            ref = Referrals.objects.get(pk=staff.referral_id)
+            connection = get_connection(
+                host=service.email_host,
+                port=service.email_port,
+                username=service.email_login,
+                password=service.email_password,
+                use_ssl=service.email_use_ssl,
+            )
+
+            send_mail(
+                f'Invite for {form.cleaned_data["first_name"]} '
+                f'{form.cleaned_data["last_name"]}',
+                f'{settings.ALLOWED_HOSTS[0]}:8000/registration-'
+                f'referral={ref.referral_code}',
+                service.email_login,
+                [form.cleaned_data['email']],
+                connection=connection,
+                fail_silently=False
+            )
+            return redirect(self.request.path)
         else:
             messages.error(
                 self.request,
