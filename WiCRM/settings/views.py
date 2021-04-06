@@ -161,9 +161,17 @@ class SettingsEmailService(View):
             obj = EmailService.objects.get(owner=request.user)
             form = EmailServiceForm(data, instance=obj)
             if form.is_valid():
-                form.save()
-                messages.success(request, 'Successfully updated!')
-                return redirect(self.request.path)
+                try:
+                    check_connection(form.cleaned_data)
+                    form.save()
+                    messages.success(request, 'Successfully updated!')
+                    return redirect(self.request.path)
+                except:
+                    messages.error(
+                        request,
+                        'Ooops! Your configure is incorrect!'
+                    )
+                    return redirect(self.request.path)
 
             else:
                 messages.error(request, f'{form.errors}')
@@ -175,9 +183,17 @@ class SettingsEmailService(View):
 
         form = EmailServiceForm(data)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Successfully created!')
-            return redirect(self.request.path)
+            try:
+                check_connection(form.cleaned_data)
+                form.save()
+                messages.success(request, 'Successfully created!')
+                return redirect(self.request.path)
+            except:
+                messages.error(
+                    request,
+                    'Ooops! Your configure is incorrect!'
+                )
+                return redirect(self.request.path)
 
         else:
             messages.error(request, f'{form.errors}')

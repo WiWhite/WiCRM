@@ -1,4 +1,6 @@
 import uuid
+from smtplib import SMTP, SMTP_SSL
+import ssl
 
 from django.core.mail.message import EmailMessage
 from django.core.mail import get_connection
@@ -25,7 +27,15 @@ def create_connection(email_service):
             port=email_service.email_port,
             username=email_service.email_login,
             password=email_service.email_password,
-            use_ssl=email_service.email_use_tls,
+            use_tls=email_service.email_use_tls,
+        )
+
+    else:
+        return get_connection(
+            host=email_service.email_host,
+            port=email_service.email_port,
+            username=email_service.email_login,
+            password=email_service.email_password,
         )
 
 
@@ -39,3 +49,17 @@ def send_invite(from_, to, connection, msg):
         connection=connection,
     )
     mail.send()
+
+
+def check_connection(cleaned_data):
+    if cleaned_data['email_use_ssl']:
+        context = ssl.create_default_context()
+        with SMTP_SSL(
+                cleaned_data['email_host'],
+                cleaned_data['email_port'],
+                context=context,
+        ) as server:
+            server.login(
+                cleaned_data['email_login'],
+                cleaned_data['email_password'],
+            )
