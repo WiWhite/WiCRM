@@ -1,3 +1,5 @@
+from smtplib import SMTPException
+
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -85,13 +87,13 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
             ref = Referrals.objects.get(pk=staff.referral_id)
 
             connection = create_connection(service)
-            msg = f'{settings.ALLOWED_HOSTS[0]}:8000/registration-referral' \
-                  f'={ref.referral_code}'
+            body = f'{settings.ALLOWED_HOSTS[0]}:8000/' \
+                   f'registration-referral={ref.referral_code}'
             send_invite(
                 service.email_login,
                 [form.cleaned_data['email']],
                 connection,
-                msg,
+                body,
             )
             return redirect(self.request.path)
         else:
@@ -161,15 +163,29 @@ class SettingsEmailService(View):
             obj = EmailService.objects.get(owner=request.user)
             form = EmailServiceForm(data, instance=obj)
             if form.is_valid():
+
                 try:
                     check_connection(form.cleaned_data)
                     form.save()
                     messages.success(request, 'Successfully updated!')
                     return redirect(self.request.path)
-                except:
+
+                except SMTPException:
                     messages.error(
                         request,
-                        'Ooops! Your configure is incorrect!'
+                        'Ooops! Your configure is incorrect. Check the '
+                        'correctness of the data and try again.'
+                    )
+                    return redirect(self.request.path)
+
+                except TimeoutError:
+                    messages.error(
+                        request,
+                        'An attempt to establish a connection was unsuccessful'
+                        ' because the desired response was not received from'
+                        ' another computer within the required time, or an '
+                        'already established connection was terminated due to '
+                        'a bad response from an already connected computer.'
                     )
                     return redirect(self.request.path)
 
@@ -188,7 +204,7 @@ class SettingsEmailService(View):
                 form.save()
                 messages.success(request, 'Successfully created!')
                 return redirect(self.request.path)
-            except:
+            except (SMTPException, TimeoutError):
                 messages.error(
                     request,
                     'Ooops! Your configure is incorrect!'

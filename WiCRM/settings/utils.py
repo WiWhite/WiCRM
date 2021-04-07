@@ -39,11 +39,11 @@ def create_connection(email_service):
         )
 
 
-def send_invite(from_, to, connection, msg):
+def send_invite(from_, to, connection, body):
     subj = 'Invite for you!'
     mail = EmailMessage(
         subject=subj,
-        body=msg,
+        body=body,
         from_email=from_,
         to=to,
         connection=connection,
@@ -52,12 +52,34 @@ def send_invite(from_, to, connection, msg):
 
 
 def check_connection(cleaned_data):
+
     if cleaned_data['email_use_ssl']:
         context = ssl.create_default_context()
         with SMTP_SSL(
                 cleaned_data['email_host'],
                 cleaned_data['email_port'],
                 context=context,
+        ) as server:
+            server.login(
+                cleaned_data['email_login'],
+                cleaned_data['email_password'],
+            )
+
+    elif cleaned_data['email_use_tls']:
+        with SMTP(
+                cleaned_data['email_host'],
+                cleaned_data['email_port'],
+        ) as server:
+            server.starttls()
+            server.login(
+                cleaned_data['email_login'],
+                cleaned_data['email_password'],
+            )
+
+    else:
+        with SMTP(
+                cleaned_data['email_host'],
+                cleaned_data['email_port'],
         ) as server:
             server.login(
                 cleaned_data['email_login'],
