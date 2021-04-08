@@ -75,26 +75,34 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
         # staff created
         form = self.form_class(owner.pk, self.request.POST)
         if form.is_valid():
-            messages.success(
-                self.request,
-                f'{form.cleaned_data["first_name"]} '
-                f'{form.cleaned_data["last_name"]} successfully created!'
-            )
-            form.save()
-
-            staff = Staff.objects.get(email=form.cleaned_data['email'])
-            service = EmailService.objects.get(pk=owner.pk)
-
-            connection = create_connection(service)
-            body = f'{settings.ALLOWED_HOSTS[0]}:8000/' \
-                   f'registration-referral={staff.referral}'
-            send_invite(
-                service.email_login,
-                [form.cleaned_data['email']],
-                connection,
-                body,
-            )
-            return redirect(self.request.path)
+            try:
+                service = EmailService.objects.get(pk=owner.pk)
+                check_connection(service.__dict__)
+                form.save()
+                messages.success(
+                    self.request,
+                    f'{form.cleaned_data["first_name"]} '
+                    f'{form.cleaned_data["last_name"]} successfully created!'
+                )
+                staff = Staff.objects.get(email=form.cleaned_data['email'])
+                connection = create_connection(service)
+                body = f'{settings.ALLOWED_HOSTS[0]}:8000/' \
+                       f'registration-referral={staff.referral}'
+                send_invite(
+                    service.email_login,
+                    [form.cleaned_data['email']],
+                    connection,
+                    body,
+                )
+                return redirect(self.request.path)
+            except SMTPException:
+                messages.error(
+                    self.request,
+                    'Something is wrong with the connection to the mailing '
+                    'server! Check if the settings are correct on the Email'
+                    ' Service tab.'
+                )
+                return redirect(self.request.path)
         else:
             messages.error(
                 self.request,
