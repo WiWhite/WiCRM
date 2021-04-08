@@ -10,7 +10,7 @@ from django.core.mail import send_mail, get_connection
 
 from .models import *
 from .forms import *
-from .mixins import CreateDelObjectMixin
+from .mixins import CreateDelObjectMixin, CheckConnSaveMixin
 from .utils import *
 from referral.models import Referrals
 
@@ -84,11 +84,10 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
 
             staff = Staff.objects.get(email=form.cleaned_data['email'])
             service = EmailService.objects.get(pk=owner.pk)
-            ref = Referrals.objects.get(pk=staff.referral_id)
 
             connection = create_connection(service)
             body = f'{settings.ALLOWED_HOSTS[0]}:8000/' \
-                   f'registration-referral={ref.referral_code}'
+                   f'registration-referral={staff.referral}'
             send_invite(
                 service.email_login,
                 [form.cleaned_data['email']],
@@ -126,7 +125,7 @@ class SettingsService(LoginRequiredMixin, CreateDelObjectMixin):
     raise_exception = True
 
 
-class SettingsEmailService(View):
+class SettingsEmailService(CheckConnSaveMixin):
 
     def get(self, request):
 
@@ -158,36 +157,15 @@ class SettingsEmailService(View):
 
         data = self.request.POST.copy()
         data['owner'] = self.request.user
+        form = EmailServiceForm(data)
 
         if self.request.POST.get('update'):
             obj = EmailService.objects.get(owner=request.user)
             form = EmailServiceForm(data, instance=obj)
+
             if form.is_valid():
-
-                try:
-                    check_connection(form.cleaned_data)
-                    form.save()
-                    messages.success(request, 'Successfully updated!')
-                    return redirect(self.request.path)
-
-                except SMTPException:
-                    messages.error(
-                        request,
-                        'Ooops! Your configure is incorrect. Check the '
-                        'correctness of the data and try again.'
-                    )
-                    return redirect(self.request.path)
-
-                except TimeoutError:
-                    messages.error(
-                        request,
-                        'An attempt to establish a connection was unsuccessful'
-                        ' because the desired response was not received from'
-                        ' another computer within the required time, or an '
-                        'already established connection was terminated due to '
-                        'a bad response from an already connected computer.'
-                    )
-                    return redirect(self.request.path)
+                self.check_save(request, form)
+                return redirect(self.request.path)
 
             else:
                 messages.error(request, f'{form.errors}')
@@ -197,19 +175,9 @@ class SettingsEmailService(View):
                     {'form': form}
                 )
 
-        form = EmailServiceForm(data)
-        if form.is_valid():
-            try:
-                check_connection(form.cleaned_data)
-                form.save()
-                messages.success(request, 'Successfully created!')
-                return redirect(self.request.path)
-            except (SMTPException, TimeoutError):
-                messages.error(
-                    request,
-                    'Ooops! Your configure is incorrect!'
-                )
-                return redirect(self.request.path)
+        elif form.is_valid():
+            self.check_save(request, form)
+            return redirect(self.request.path)
 
         else:
             messages.error(request, f'{form.errors}')

@@ -1,7 +1,11 @@
-from django.views.generic import CreateView
+from smtplib import SMTPException
+
+from django.views.generic import CreateView, View
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import redirect
+
+from .utils import check_connection
 
 
 class CreateDelObjectMixin(CreateView):
@@ -37,3 +41,31 @@ class CreateDelObjectMixin(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class CheckConnSaveMixin(View):
+
+    @staticmethod
+    def check_save(request, form):
+
+        try:
+            check_connection(form.cleaned_data)
+            form.save()
+            messages.success(request, 'Successfully created!')
+
+        except SMTPException:
+            messages.error(
+                request,
+                'Ooops! Your configure is incorrect. Check the '
+                'correctness of the data and try again.'
+            )
+
+        except TimeoutError:
+            messages.error(
+                request,
+                'An attempt to establish a connection was unsuccessful'
+                ' because the desired response was not received from'
+                ' another computer within the required time, or an '
+                'already established connection was terminated due to '
+                'a bad response from an already connected computer.'
+            )
