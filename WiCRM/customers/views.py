@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, View, DeleteView
-from django.contrib.auth.models import User
-from .models import *
-from .forms import *
-
-from .mixins import *
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+
+from .models import *
+from .forms import *
+from .mixins import *
+from accounts.models import User
+
 
 
 class Logout(View):

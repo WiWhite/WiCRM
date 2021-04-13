@@ -28,7 +28,12 @@ Registration
                         <form action="{% url 'registration' %}" method="post"
                               class="form-control">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            {% for field in form %}
+                                {% if field.label != 'Group' %}
+                                    {{ field.label }}
+                                    {{ field }}
+                                {% endif %}
+                            {% endfor %}
                             <div class="d-grid gap-2 mt-2">
                                 <button class="btn btn-outline-success bg-gradient"
                                         type="submit">

@@ -13,14 +13,15 @@ from .forms import *
 from .mixins import CreateDelObjectMixin, CheckConnSaveMixin
 from .utils import *
 from referral.models import Referrals
+from accounts.models import User
 
 
-class SettingsStaff(LoginRequiredMixin, CreateView):
+class SettingsPersonnel(LoginRequiredMixin, CreateView):
     """
     View for displaying, creating, updating and deleting employees.
     """
-    model = Staff
-    form_class = StaffForm
+    model = Personnel
+    form_class = PersonnelForm
     template_name = 'settings/settings_staff.html'
     success_url = reverse_lazy('settings_staff')
     raise_exception = True
@@ -30,11 +31,11 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
         self.object = owner
         form = self.form_class(owner=owner)
         context = super().get_context_data(**kwargs)
-        context['staff'] = Staff.objects.filter(
+        context['staff'] = Personnel.objects.filter(
             owner=self.request.user,
             dismissal=None
         )
-        context['fields'] = Staff._meta.fields
+        context['fields'] = Personnel._meta.fields
         context['form'] = form
         return render(requests, self.template_name, context)
 
@@ -84,7 +85,7 @@ class SettingsStaff(LoginRequiredMixin, CreateView):
                     f'{form.cleaned_data["first_name"]} '
                     f'{form.cleaned_data["last_name"]} successfully created!'
                 )
-                staff = Staff.objects.get(email=form.cleaned_data['email'])
+                staff = Personnel.objects.get(email=form.cleaned_data['email'])
                 connection = create_connection(service)
                 body = f'{settings.ALLOWED_HOSTS[0]}:8000/' \
                        f'registration-referral={staff.referral}'
@@ -185,7 +186,12 @@ class SettingsEmailService(CheckConnSaveMixin):
 
         elif form.is_valid():
             self.check_save(request, form)
-            return redirect(self.request.path)
+            context = {'form': form}
+            return render(
+                request,
+                'settings/settings_email_service.html',
+                context,
+            )
 
         else:
             messages.error(request, f'{form.errors}')

@@ -4,9 +4,9 @@ from django.db import models
 from django.contrib import messages
 
 from .models import Referrals
-from settings.forms import StaffForm
+from settings.forms import PersonnelForm
 from registration.forms import RegisterForm
-from settings.models import Staff
+from settings.models import Personnel
 
 
 class RegistrationReferral(View):
@@ -15,8 +15,8 @@ class RegistrationReferral(View):
         try:
             referral = Referrals.objects.get(referral_code=ref)
             if referral.used is False:
-                staff = Staff.objects.get(referral_id=referral.id)
-                staff_form = StaffForm(instance=staff)
+                staff = Personnel.objects.get(referral_id=referral.id)
+                staff_form = PersonnelForm(instance=staff)
                 registration_form = RegisterForm({'email': staff.email})
                 context = {
                     'staff_form': staff_form,
@@ -38,7 +38,7 @@ class RegistrationReferral(View):
 
     def post(self, request, ref):
         referral = Referrals.objects.get(referral_code=ref)
-        staff = Staff.objects.get(referral_id=referral.id)
+        staff = Personnel.objects.get(referral_id=referral.id)
         staff_data = {
             'first_name': self.request.POST.get('first_name'),
             'last_name': self.request.POST.get('last_name'),
@@ -51,8 +51,10 @@ class RegistrationReferral(View):
             'dismissal': staff.dismissal,
             'owner': staff.owner,
         }
-        staff_form = StaffForm(staff.owner_id, staff_data, instance=staff)
-        registration_form = RegisterForm(self.request.POST)
+        staff_form = PersonnelForm(staff.owner_id, staff_data, instance=staff)
+        register_data = self.request.POST.copy()
+        register_data['group'] = 1
+        registration_form = RegisterForm(register_data)
         if all([staff_form.is_valid(), registration_form.is_valid()]):
             staff_form.save()
             registration_form.save()

@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 from phonenumber_field.modelfields import PhoneNumberField
-from settings.models import Services, Staff
+from settings.models import Services, Personnel
 
 
 class Customers(models.Model):
@@ -14,7 +14,7 @@ class Customers(models.Model):
     instagram = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    curator = models.ForeignKey(Staff, on_delete=models.SET_NULL, null=True)
+    curator = models.ForeignKey(Personnel, on_delete=models.SET_NULL, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

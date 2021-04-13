@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 from referral.models import Referrals
 
@@ -35,7 +35,7 @@ class Positions(models.Model):
         verbose_name = 'Position'
 
 
-class Staff(models.Model):
+class Personnel(models.Model):
 
     SEX_CHOICES = (
         (0, 'Male'),

@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-from settings.models import Services, Staff
+from settings.models import Services, Personnel
 
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
@@ -76,7 +76,7 @@ class CustomerForm(forms.ModelForm):
 
     def __init__(self, owner=None, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
-        self.fields['curator'].queryset = Staff.objects.filter(
+        self.fields['curator'].queryset = Personnel.objects.filter(
             owner=owner,
             dismissal=None,
         )

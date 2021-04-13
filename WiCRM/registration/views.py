@@ -20,7 +20,10 @@ class Registration(View):
         )
 
     def post(self, request):
-        form = RegisterForm(request.POST)
+
+        data = request.POST.copy()
+        data['group'] = 0
+        form = RegisterForm(data)
 
         if form.is_valid():
             form.save()

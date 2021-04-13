@@ -5,7 +5,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 
-class StaffForm(forms.ModelForm):
+class PersonnelForm(forms.ModelForm):
 
     phone_number = PhoneNumberField(
         widget=PhoneNumberPrefixWidget(
@@ -17,7 +17,7 @@ class StaffForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Staff
+        model = Personnel
         fields = (
             'first_name',
             'last_name',
@@ -78,7 +78,7 @@ class StaffForm(forms.ModelForm):
         }
 
     def __init__(self, owner=None, *args, **kwargs):
-        super(StaffForm, self).__init__(*args, **kwargs)
+        super(PersonnelForm, self).__init__(*args, **kwargs)
         self.fields['position'].queryset = Positions.objects.filter(owner=owner)
 
 
@@ -119,6 +119,7 @@ class ServicesForm(forms.ModelForm):
 
 
 class EmailServiceForm(forms.ModelForm):
+
     class Meta:
         model = EmailService
         fields = (

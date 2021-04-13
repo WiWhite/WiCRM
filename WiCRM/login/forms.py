@@ -6,7 +6,7 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Your username'
+            'placeholder': 'Your E-mail'
         }),
     )
     password = forms.CharField(

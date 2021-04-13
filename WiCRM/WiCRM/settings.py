@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-
     'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,7 +44,10 @@ INSTALLED_APPS = [
     'registration.apps.RegistrationConfig',
     'login.apps.LoginConfig',
     'referral.apps.ReferralConfig',
+    'accounts.apps.AccountsConfig',
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

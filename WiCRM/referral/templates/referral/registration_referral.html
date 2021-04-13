@@ -31,7 +31,7 @@ Invite referral registration
                     {% endif %}
                     {% endfor %}
                     {% for field in registration_form %}
-                    {% if field.label != 'First name' and field.label != 'Last name' %}
+                    {% if field.label != 'First name' and field.label != 'Last name' and field.label != 'Group' %}
                     {{ field.label }}
                     {{ field }}
                     {% endif %}

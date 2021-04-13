@@ -1,7 +1,7 @@
 from smtplib import SMTPException
 
 from django.views.generic import CreateView, View
-from django.contrib.auth.models import User
+from accounts.models import User
 from django.contrib import messages
 from django.shortcuts import redirect
 
@@ -53,11 +53,11 @@ class CheckConnSaveMixin(View):
             form.save()
             messages.success(request, 'Successfully created!')
 
-        except SMTPException:
+        except SMTPException as error:
             messages.error(
                 request,
-                'Ooops! Your configure is incorrect. Check the '
-                'correctness of the data and try again.'
+                f'Ooops! Your configure is incorrect. Check the '
+                f'correctness of the data and try again.\n {error}'
             )
 
         except TimeoutError:
