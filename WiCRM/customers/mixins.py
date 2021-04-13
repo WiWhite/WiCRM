@@ -1,7 +1,8 @@
 from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
+from accounts.models import User
+from settings.models import Personnel
 from django.contrib import messages
 
 
@@ -57,11 +58,20 @@ class ObjListUpdateDeleteMixin(ListView):
             ).select_related()
             return object_list
 
-        # filtering customers by owner
-        object_list = self.model.objects.filter(
-            owner=self.request.user
-        ).select_related()
-        return object_list
+        user = User.objects.get(username=self.request.user)
+        if user.group == 0:
+            # filtering customers by owner
+            object_list = self.model.objects.filter(
+                owner=self.request.user
+            ).select_related()
+            return object_list
+        else:
+            # filtering customers by curator
+            staff = Personnel.objects.get(email=user.email)
+            object_list = self.model.objects.filter(
+                curator=staff.id
+            ).select_related()
+            return object_list
 
     def get_context_data(self, *, object_list=None, **kwargs):
         queryset = object_list if object_list is not None else self.object_list
